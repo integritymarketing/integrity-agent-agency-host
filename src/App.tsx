@@ -3,6 +3,8 @@ import "./App.css";
 import Button from "remoteApp/Button";
 import useStore from "remoteApp/store";
 
+import Dashboard from "IntegrityAgentDashboard/Dashboard";
+
 function App() {
     const [count, setCount] = useStore();
 
@@ -16,6 +18,8 @@ function App() {
             </div>
 
             <Button />
+            <Dashboard />
+
         </div>
     );
 }
