@@ -1,14 +1,8 @@
 
-type DashboardProps = object
+type AgentDashboardProps = object
 
-declare module "IntegrityAgentDashboard/Dashboard" {
+declare module "IntegrityAgentDashboard/AgentDashboard" {
     import { ComponentType } from "react";
-    const Dashboard: ComponentType<DashboardProps>;
-    export default Dashboard;
-}
-
-declare module "IntegrityAgentDashboard/MainRouters" {
-    import { ComponentType } from "react";
-    const MainRouters: ComponentType<MainRoutersProps>;
-    export default MainRouters;
+    const AgentDashboard: ComponentType<AgentDashboardProps>;
+    export default AgentDashboard;
 }

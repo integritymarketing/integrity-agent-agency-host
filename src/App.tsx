@@ -1,14 +1,13 @@
 import "./App.css";
 
-
-import Dashboard from "IntegrityAgentDashboard/Dashboard";
+import AgentDashboard from "IntegrityAgentDashboard/AgentDashboard";
 
 function App() {
 
     return (
         <div className="App">
             <h1>Host Application</h1>
-            <Dashboard />
+            <AgentDashboard />
 
         </div>
     );
