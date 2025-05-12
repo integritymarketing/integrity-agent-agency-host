@@ -1,8 +1,11 @@
 {
   "name": "integrity-agent-agency-host",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=22.15.0"
+  },
   "scripts": {
     "dev": "vite --strictPort --port 3000",
     "build": "tsc -b && vite build",
