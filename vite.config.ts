@@ -9,10 +9,9 @@ export default defineConfig({
     federation({
       name: "app",
       remotes: {
-        remoteApp: "http://localhost:5001/assets/remoteEntry.js",
         IntegrityAgentDashboard: "http://localhost:5002/assets/integrityAgentDashboard.js",
       },
-      shared: ["react", "react-dom"],
+      shared: ['react', 'react-dom'],
     }),
   ],
   build: {
