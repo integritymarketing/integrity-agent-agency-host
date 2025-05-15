@@ -14,13 +14,21 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "types": ["react"],
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* Added baseUrl for absolute imports */
+    "baseUrl": "src",
+
+    "paths": {
+      "@/*": ["*"]
+    }
   },
   "include": ["src"]
 }

@@ -1,17 +1,22 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import federation from '@originjs/vite-plugin-federation'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import federation from "@originjs/vite-plugin-federation";
 
-// https://vite.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      "@": "/src", // <-- Simple alias to root 'src' folder
+    },
+  },
   plugins: [
     react(),
     federation({
       name: "app",
       remotes: {
-        IntegrityAgentDashboard: "http://localhost:5002/assets/integrityAgentDashboard.js",
+        IntegrityAgentDashboard:
+          "http://localhost:5002/assets/integrityAgentDashboard.js",
       },
-      shared: ['react', 'react-dom'],
+      shared: ["react", "react-dom"],
     }),
   ],
   build: {
