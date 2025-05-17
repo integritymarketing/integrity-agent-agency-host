@@ -1,19 +1,29 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import WelcomePage from "@/pages/Welcome"; // Your updated WelcomePage
-import Dashboard from "@/pages/Dashboard"; // Your dashboard component
+
+const WelcomePage = lazy(() => import("@/pages/Welcome"));
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const Test = lazy(() => import("@/pages/Test"));
+const Logout = lazy(() => import("@/auth/pages/Logout"));
+const RedirectToAppropriateRoute = lazy(
+  () => import("@/routes/RedirectToAppropriateRoute")
+);
 
 const AppRoutes: React.FC = () => (
-  <Routes>
-    {/* Landing page */}
-    <Route path="/" element={<WelcomePage />} />
+  <Suspense fallback={<div>Loading...</div>}>
+    <Routes>
+      <Route path="/" element={<RedirectToAppropriateRoute />} />
+      <Route path="/welcome" element={<WelcomePage />} />
 
-    {/* Protected landing after login */}
-    <Route path="/dashboard" element={<Dashboard />} />
+      {/* Private Routes */}
 
-    {/* Optional: catch-all redirect */}
-    <Route path="*" element={<Navigate to="/" replace />} />
-  </Routes>
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/test" element={<Test />} />
+      <Route path="/logout" element={<Logout />} />
+
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  </Suspense>
 );
 
 export default AppRoutes;

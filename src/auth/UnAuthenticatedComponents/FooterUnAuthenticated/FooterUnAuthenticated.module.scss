@@ -1,0 +1,39 @@
+@use "scss/globalDefines" as defines_global;
+
+.footerContainer {
+  min-height: 8rem;
+  max-height: 10rem;
+  background: defines_global.$white;
+
+  // padding-left: 136px; need to test before removing
+  // padding-right: 136px;
+
+  @include defines_global.small {
+    height: 9rem;
+  }
+}
+
+.textContent {
+  color: defines_global.$gray-7;
+  text-decoration: none;
+}
+
+.logo {
+  width: 120px;
+  height: 22px;
+  margin-left: 40px;
+
+  @include defines_global.small {
+    margin-left: 0;
+    align-self: center;
+  }
+}
+
+.hideForWebMobile {
+  display: flex;
+  align-items: center;
+
+  @include defines_global.small {
+    display: none;
+  }
+}

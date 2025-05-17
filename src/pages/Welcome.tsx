@@ -7,8 +7,8 @@ import {
   Box,
   Container,
 } from "@mui/material";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 // Sample logo URL - replace with your logo if you want
 const logoUrl =
@@ -18,21 +18,13 @@ const imageUrl =
   "https://ae-dev.integritymarketinggroup.com/assets/image-CVWFCRsT.jpg"; // Path to your uploaded image
 
 const WelcomePage = () => {
-  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
-  const navigate = useNavigate();
-
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/dashboard");
-    }
-  }, [isAuthenticated, navigate]);
+  const { loginWithRedirect } = useAuth0();
 
   const handleLoginClick = async () => {
     try {
       await loginWithRedirect({
         authorizationParams: {
-          redirect_uri: `${window.location.origin}/dashboard`,
+          redirect_uri: `${window.location.origin}/dashboard`, // Redirect to dashboard after login
         },
       });
     } catch (e) {
@@ -40,11 +32,6 @@ const WelcomePage = () => {
       // Optionally show error message to user here
     }
   };
-
-  if (isLoading) {
-    // You can show a spinner or nothing while loading
-    return null;
-  }
 
   return (
     <>
