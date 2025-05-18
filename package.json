@@ -11,7 +11,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postbuild": "node generate-redirects.mjs"
+    "postbuild": "node generate-redirects.mjs",
+    "secure-install": "dotenv -e .env -- yarn install"
   },
   "dependencies": {
     "@auth0/auth0-react": "2.2.4",
