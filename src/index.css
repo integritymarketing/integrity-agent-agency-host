@@ -1,69 +1,53 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --integrity-navy-default:   #052A63;   
+  --integrity-navy-light-3:   #1D3E71;  
+  --integrity-navy-light-2:   #375582;   
+  --integrity-navy-light-1:   #49648B; 
+  --integrity-navy-light-0:   #7188A8;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --integrity-royal-default:  #4178FF;
+  --integrity-royal-hover:    #1357FF;
+  --integrity-royal-light-3:  #B3C9FF;
+  --integrity-royal-light-2:  #DFEAFB;
+  --integrity-royal-light-1:  #F1FAFF;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  width: 100% !important;
-}
+  --integrity-gold-default:   #A9905F;   
+  --integrity-gold-light-3:   #BFAC87;   
+  --integrity-gold-light-2:   #D4C7AF;   
+  --integrity-gold-light-1:   #E9E3D7;   
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+  --integrity-gray-dark-4:    #434A51;  
+  --integrity-gray-default:   #717171;   
+  --integrity-gray-light-4:   #999999;   
+  --integrity-gray-light-3:   #CCCCCC;   
+  --integrity-gray-light-2:   #DDDDDD;   
+  --integrity-gray-light-1:   #F1F1F1;   
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
+  --integrity-error-hard:     #C81E27;  
+  --integrity-error-soft:     #FBDEDE;  
+  --integrity-error-dark-1:   #9F040C;   
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+  --integrity-warning-hard:   #F56600;   
+  --integrity-warning-soft:   #FCF2E8;
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+  --integrity-success-hard:   #009E15;   
+  --integrity-success-soft:   #E5FAEB;
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  --integrity-primitive-hard: #000000;   
+  --integrity-primitive-soft: #FFFFFF;
+
+  --blue-scale-1-new:         #95B3FF;
+  --blue-scale-2-first-call:  #89A6F1;
+  --blue-scale-3-second-call: #7C99E3;
+  --blue-scale-4-third-call:  #708CD4;
+  --blue-scale-5-voice-mail:  #637FC6;
+  --blue-scale-6-text:        #5772B8;
+  --blue-scale-7-door-knock:  #4B66AA;
+  --blue-scale-8-appointment: #3E589B;
+  --blue-scale-9-submitted:   #324C8D;
+
+  --divider: rgba(0, 0, 0, 0.12);
+
+  --text-primary:             #434A51;
+  --text-secondary:           #717171;
 }
