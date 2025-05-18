@@ -25,8 +25,8 @@ jobs:
           echo "@integritymarketing:registry=https://npm.pkg.github.com/" >> .npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies with Yarn
+        run: yarn install
 
       - name: Build Vite app
-        run: npm run build
+        run: yarn build
