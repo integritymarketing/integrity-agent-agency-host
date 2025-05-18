@@ -5,13 +5,17 @@ import federation from "@originjs/vite-plugin-federation";
 export default defineConfig({
   resolve: {
     alias: {
-      "@": "/src", // <-- Simple alias to root 'src' folder
+      "@": "/src",
     },
   },
   plugins: [
     react(),
     federation({
-      name: "app",
+      name: "agentSharedContext",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./AppGlobalProvider": "./src/contexts/AgentGlobalProvider.tsx",
+      },
       remotes: {
         IntegrityAgentDashboard:
           "http://localhost:5002/assets/integrityAgentDashboard.js",
