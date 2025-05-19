@@ -1,54 +1,93 @@
-# React + TypeScript + Vite
+# Agent Shared Context
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A microfrontend-compatible shared context module built for the Integrity platform. This package exposes global providers—such as `AppGlobalProvider`—to downstream microfrontend applications via Vite Module Federation. It centrally manages agent and agency authentication using Auth0, enabling consistent and secure login experiences across integrated apps.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- ✅ Exposes `AppGlobalProvider` for context-sharing across MFEs
+- ✅ Vite + Module Federation (`@originjs/vite-plugin-federation`)
+- ✅ TypeScript + ESLint + Prettier integration
+- ✅ Post-build redirect support for Netlify via `_redirects` file
+- ✅ React 18 (experimental) compatibility
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 📦 Tech Stack
+
+- **React (experimental release)**
+- **Vite**
+- **Module Federation**
+- **TypeScript**
+- **MUI 5**
+- **Prettier + ESLint**
+- **Yarn**
+
+---
+
+## 🧱 Project Structure
+
+```bash
+.
+├── src/
+│   ├── contexts/AgentGlobalProvider.tsx
+│   ├── hooks/...
+├── tsconfig.app.json
+├── vite.config.ts
+├── package.json
+├── .npmrc (ignored)
+├── .env        # NOT committed; required locally
+└── generate-redirects.mjs
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🛠️ Getting Started
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
+2. Install dependencies:
+   ```bash
+   yarn install
+   ```
+3. Start the development server:
+   ```bash
+   yarn dev
+   ```
+4. Build the project for production:
+   ```bash
+   yarn build
+   ```
+
+---
+
+## 📜 Available Scripts
+
+The following scripts are available in the `package.json`:
+
+- **`yarn dev`**: Starts the development server.
+- **`yarn build`**: Builds the project for production.
+- **`yarn lint`**: Runs ESLint to check for code quality issues.
+- **`yarn format`**: Formats the code using Prettier.
+- **`yarn test`**: Runs the test suite.
+
+---
+
+## 🔧 Required Node.js Version
+
+This project requires **Node.js v>=22.14.0**. Ensure you have the correct version installed by running:
+
+```bash
+node -v
 ```
+
+If you need to switch Node.js versions, consider using a version manager like [nvm](https://github.com/nvm-sh/nvm).
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
