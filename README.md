@@ -47,7 +47,7 @@ A microfrontend-compatible shared context module built for the Integrity platfor
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/integritymarketing/integrity-agent-agency-host
    ```
 2. Install dependencies:
    ```bash
@@ -87,6 +87,35 @@ node -v
 If you need to switch Node.js versions, consider using a version manager like [nvm](https://github.com/nvm-sh/nvm).
 
 ---
+
+## 🔑 Setting Up `.npmrc`
+
+To publish or install private packages from GitHub, you need to create a `.npmrc` file in the root of your project and include your GitHub personal access token. Follow these steps:
+
+1. **Generate a GitHub Personal Access Token**:
+
+   - Go to your GitHub account settings.
+   - Navigate to **Developer settings > Personal access tokens > Tokens (classic)**.
+   - Generate a new token with the `write:packages` and `read:packages` permissions.
+
+2. **Create a `.npmrc` File**:
+   Add the following content to your `.npmrc` file:
+
+   ```plaintext
+   //npm.pkg.github.com/:_authToken=YOUR_PERSONAL_ACCESS_TOKEN
+   ```
+
+   Replace `YOUR_PERSONAL_ACCESS_TOKEN` with the token you generated.
+
+3. **Important Note**:
+   - Do **NOT** commit the `.npmrc` file containing your token to version control.
+   - If the token is accidentally published, GitHub will automatically revoke it.
+
+---
+
+## 🌐 Hosting
+
+This site has been hosted and deployed to **Netlify**.
 
 ## 📄 License
 
