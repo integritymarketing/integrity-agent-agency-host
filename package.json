@@ -8,11 +8,12 @@
   },
   "scripts": {
     "dev": "vite --strictPort --port 3000",
-    "build": "tsc -b && vite build",
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=4096 vite build",
+    "preview": "vite preview --strictPort --port 3000",
     "lint": "eslint .",
-    "preview": "vite preview",
     "postbuild": "node generate-redirects.mjs",
-    "secure-install": "dotenv -e .env -- yarn install"
+    "secure-install": "dotenv -e .env -- yarn install",
+    "build-preview": "npm run build && npm run preview"
   },
   "dependencies": {
     "@auth0/auth0-react": "2.2.4",
@@ -34,6 +35,7 @@
     "@uidotdev/usehooks": "^2.4.1-experimental.1",
     "eslint-plugin-prettier": "^5.4.0",
     "eslint-plugin-react": "^7.37.5",
+    "jotai": "^2.12.4",
     "path": "^0.12.7",
     "prettier": "^3.5.3",
     "react": "^18.3.1",
@@ -48,13 +50,14 @@
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "cross-env": "^7.0.3",
     "eslint": "^9.26.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.0.0",
+    "sass": "^1.69.7",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.32.1",
-    "vite": "^6.0.11",
-    "sass": "^1.69.7"
+    "vite": "^6.0.11"
   }
 }

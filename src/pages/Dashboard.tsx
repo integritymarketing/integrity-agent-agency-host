@@ -1,5 +1,7 @@
 import { useAgentAvailability, useAgentDetails } from "@/contexts";
 import { AvailabilityToggle } from "@/components";
+import AgentDashboard from "IntegrityAgentDashboard/AgentDashboard";
+import userState from "@/store/userState.tsx"
 
 const Dashboard = () => {
   const { data, loading, error } = useAgentAvailability();
@@ -12,6 +14,8 @@ const Dashboard = () => {
   console.log("Agent Details Data:", agentDetails);
   console.log("Is Life Non RTS:", isLifeNonRTS);
 
+    const [count, setCount] = userState();
+
   return (
     <div>
       <h1>Dashboard</h1>
@@ -20,6 +24,12 @@ const Dashboard = () => {
         Agent Availability: {data?.availability ? "Available" : "Unavailable"}
       </p>
       <AvailabilityToggle />
+        <div className="card">
+            <button onClick={() => setCount((count) => count + 1)}>
+                count in Host Application: {count}
+            </button>
+        </div>
+        <AgentDashboard  />
     </div>
   );
 };
