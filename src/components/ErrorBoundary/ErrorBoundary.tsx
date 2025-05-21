@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
-  fallback?: ReactNode; // Optional custom fallback UI
+  fallback?: ReactNode;
 }
 
 interface ErrorBoundaryState {
@@ -20,25 +20,33 @@ class ErrorBoundary extends React.Component<
   }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    // Update state to display fallback UI
     return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, info: React.ErrorInfo) {
-    // You can log error info to an error reporting service here
     console.error("ErrorBoundary caught an error", error, info);
   }
 
   render() {
-    const { hasError } = this.state;
+    const { hasError, error } = this.state;
     const { fallback, children } = this.props;
 
     if (hasError) {
-      // Render fallback UI if provided or default message
       return (
         fallback || (
           <div style={{ padding: 20, textAlign: "center" }}>
             <h2>Something went wrong.</h2>
+            {error && (
+              <div style={{ textAlign: "left", marginTop: 20 }}>
+                <h3>Error Details:</h3>
+                <pre style={{ color: "red", whiteSpace: "pre-wrap" }}>
+                  {error.message}
+                </pre>
+                <pre style={{ color: "gray", whiteSpace: "pre-wrap" }}>
+                  {error.stack}
+                </pre>
+              </div>
+            )}
             <p>Please try refreshing the page or contact support.</p>
           </div>
         )
