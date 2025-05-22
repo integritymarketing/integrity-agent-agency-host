@@ -8,8 +8,11 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 
 function App() {
     return (
-        <div className="App">
+        <>
+        <div className="card">
             <h1>Host Application</h1>
+        </div>
+        <div className="App">
             <ErrorBoundary>
                 <BrowserRouter>
                     <AuthProvider>
@@ -20,6 +23,7 @@ function App() {
                 </BrowserRouter>
             </ErrorBoundary>
         </div>
+        </>
     );
 }
 
