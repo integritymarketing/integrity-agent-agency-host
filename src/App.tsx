@@ -1,14 +1,27 @@
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
+import AppRoutes from "@/routes/AppRoutes.tsx";
+import { AuthProvider } from "./contexts/auth0Provider/AuthContext";
+import { AgentGlobalProvider } from "@/contexts";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
-import AgentDashboard from "IntegrityAgentDashboard/AgentDashboard";
 
 function App() {
-  return (
-    <div className="App">
-      <h1>Host Application</h1>
-      <AgentDashboard />
-    </div>
-  );
+    return (
+        <div className="App">
+            <h1>Host Application</h1>
+            <ErrorBoundary>
+                <BrowserRouter>
+                    <AuthProvider>
+                        <AgentGlobalProvider>
+                            <AppRoutes />
+                        </AgentGlobalProvider>
+                    </AuthProvider>
+                </BrowserRouter>
+            </ErrorBoundary>
+        </div>
+    );
 }
+
 
 export default App;

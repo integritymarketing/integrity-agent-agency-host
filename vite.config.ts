@@ -14,14 +14,12 @@ export default defineConfig({
       name: "agentSharedContext",
       filename: "remoteEntry.js",
       exposes: {
-        // "./AppGlobalProvider": "./src/contexts/AgentGlobalProvider.tsx",
         "./userState": "./src/store/userState.tsx",
       },
       remotes: {
-        IntegrityAgentDashboard:
-          "http://localhost:5002/assets/integrityAgentDashboard.js",
+        IntegrityAgentDashboard: "http://localhost:5002/assets/integrityAgentDashboard.js",
       },
-      shared: ["react", "react-dom", "jotai"],
+      shared: ['react', 'react-dom', '@auth0/auth0-react', 'jotai'],
     }),
   ],
   build: {

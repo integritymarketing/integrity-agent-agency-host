@@ -23,6 +23,7 @@ build/
 *.sw?
 
 # misc
+.env
 .env.local
 
 npm-debug.log*
