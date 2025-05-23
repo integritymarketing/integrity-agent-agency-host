@@ -55,9 +55,9 @@ export const LeadStatusProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  useEffect(() => {
-    fetchStatuses();
-  }, []);
+  // useEffect(() => {
+  //   fetchStatuses();
+  // }, []);
 
   return (
     <LeadStatusContext.Provider

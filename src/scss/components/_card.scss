@@ -1,0 +1,160 @@
+@use "sass:math";
+
+.card-grid {
+  > * {
+    width: 100%;
+    min-height: 150px;
+  }
+
+  @media (width <= 539px) {
+    > * + * {
+      margin-top: 2.5rem;
+    }
+  }
+
+  @media (width >= 540px) {
+    display: grid;
+    grid-gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+
+    > * {
+      min-height: 150px;
+    }
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: var(--card-bg);
+  color: var(--neutral-text-color);
+  border-radius: 0.75rem;
+  border: 2px solid var(--card-border-color);
+  transition: box-shadow 0.2s ease;
+
+  @media (width >= 480px) {
+    padding: 1.5rem;
+  }
+
+  @media (width >= 768px) {
+    padding: math.div(30, 16) * 1rem;
+  }
+
+  &--page {
+    min-height: clamp(100px, 75vw, 560px);
+    padding: 2.5rem;
+    position: relative;
+
+    @media (width >= 480px) {
+      padding: 3.75rem;
+    }
+
+    @media (width >= 768px) {
+      padding: 5rem;
+    }
+  }
+
+  &--page__link {
+    position: absolute;
+    top: 2rem;
+    left: 2.5rem;
+    line-height: 1.5;
+
+    @media (width >= 480px) {
+      left: 3.75rem;
+    }
+
+    @media (width >= 768px) {
+      left: 5rem;
+    }
+
+    svg {
+      position: absolute;
+      top: 50%;
+      margin-top: -0.5rem;
+      left: -1.5rem;
+    }
+  }
+}
+
+.card__contactHeader {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+}
+
+.card__title {
+  display: flex;
+  font-size: 1.25rem;
+  line-height: (24 * 0.05);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.card__icon {
+  margin: 0.25rem 1rem 0 0;
+}
+
+.card__actions {
+  display: flex;
+  margin-top: auto;
+
+  &--multi {
+    > * {
+      flex: 1 0 0;
+    }
+
+    > * + * {
+      margin: 0 0 0 2rem;
+    }
+
+    @media (width <= 399px) {
+      flex-direction: column;
+
+      > * + * {
+        margin: 1rem 0 0;
+      }
+    }
+  }
+}
+
+.provider-modal {
+  width: 583.5px;
+  margin: 0 auto;
+  border-radius: initial;
+  padding: 0 !important;
+  border: none;
+
+  @media (width <= 768px) {
+    min-height: 80vh !important;
+    width: auto;
+  }
+
+  @media (width <= 480px) {
+    padding: 18px;
+    min-height: 100vh !important;
+
+    .select .select-container .inputbox {
+      display: flex;
+    }
+  }
+
+  .p_header {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    justify-content: space-between;
+    border-bottom: 1px solid #dfdedd;
+
+    .close-icon {
+      top: 20px;
+      right: 15px;
+    }
+  }
+
+  .modal__content {
+    padding: 20px;
+    background-color: #f1f1f1;
+  }
+}

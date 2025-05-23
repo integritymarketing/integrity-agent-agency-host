@@ -1,26 +1,18 @@
 import * as Sentry from "@sentry/react";
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Box, Button, Link, Typography, TextField } from "@mui/material";
 import { Formik, FormikHelpers } from "formik";
 
-import useFlashMessage from "../../hooks/useFlashMessage";
-import useToast from "../../hooks/useToast";
-import useClientId from "hooks/auth/useClientId";
-import useLoading from "hooks/useLoading";
-import useQueryParams from "hooks/useQueryParams";
+import useClientId from "@/hooks/useClientId";
+import useQueryParams from "@/hooks/useQueryParams";
+import useValidationService from "@/hooks/useValidationService";
+import useAnalytics from "@/hooks/useAnalytics";
 
-import { Button, TextButton } from "packages/Button";
-import Heading2 from "packages/Heading2";
-
-import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
-import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
-import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
-import Textfield from "components/ui/textfield";
-
-import analyticsService from "services/analyticsService";
-import validationService from "services/validationService";
+import { ContainerUnAuthenticated } from "../UnAuthenticatedComponents/ContainerUnAuthenticated/ContainerUnAuthenticated";
+import { FooterUnAuthenticated } from "../UnAuthenticatedComponents/FooterUnAuthenticated/FooterUnAuthenticated";
+import { HeaderUnAuthenticated } from "../UnAuthenticatedComponents/HeaderUnAuthenticated/HeaderUnAuthenticated";
 
 import Styles from "./AuthPages.module.scss";
 import "./mobileStyle.scss";
@@ -35,6 +27,7 @@ interface RegistrationValues {
   Phone: string;
   Email?: string | null;
   Password: string;
+  Global?: string;
 }
 
 const registerUser = async (values: RegistrationValues): Promise<Response> => {
@@ -57,42 +50,45 @@ const registerUser = async (values: RegistrationValues): Promise<Response> => {
 
 const RegistrationPage: React.FC = () => {
   const navigate = useNavigate();
-  const loading = useLoading();
+  const { fireEvent } = useAnalytics();
   const params = useQueryParams();
   const clientId = useClientId();
-  const showToast = useToast();
-  const { show: showMessage } = useFlashMessage();
+  const validation = useValidationService();
+
+  // If you had loading or toast, re-enable here.
+  // const loading = useLoading();
+  // const showToast = useToast();
+
   const [hasNPN] = useState<string | null>(params.get("npn"));
   const [hasEmail] = useState<string | null>(params.get("email"));
 
   useEffect(() => {
-    analyticsService.fireEvent("event-content-load", {
+    fireEvent("event-content-load", {
       pagePath: "/register/account-registration-form/",
     });
-  }, []);
+  }, [fireEvent]);
 
   const login = () => {
     try {
       window.location.href = `${import.meta.env.VITE_AUTH0_REDIRECT_URI}/login-redirect-sso`;
     } catch (e) {
       Sentry.captureException(e);
-      showMessage("Unable to sign in at this time.", { type: "error" });
+      // showMessage("Unable to sign in at this time.", { type: "error" });
     }
   };
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>Integrity - Register Account</title>
-      </Helmet>
+      </Helmet> */}
       <div className="content-frame v2">
         <HeaderUnAuthenticated />
         <ContainerUnAuthenticated>
-          <Heading2
-            className={Styles.registerTitle}
-            text="Register your account"
-          />
-          <Formik
+          <Typography variant="h5" color="blue" fontWeight="bold">
+            Register your account
+          </Typography>
+          <Formik<RegistrationValues>
             initialValues={{
               FirstName: "",
               LastName: "",
@@ -101,54 +97,54 @@ const RegistrationPage: React.FC = () => {
               Email: hasEmail || "",
               Password: "",
             }}
-            validate={(values: RegistrationValues) =>
-              validationService.validateMultiple(
+            validate={(values) =>
+              validation.validateMultiple(
                 [
                   {
                     name: "NPN",
                     validator: hasNPN
-                      ? validationService.validateUsername
+                      ? validation.validateUsername
                       : () => null,
                     args: ["NPN Number"],
                   },
                   {
                     name: "FirstName",
-                    validator: validationService.validateName,
+                    validator: validation.validateName,
                     args: ["First Name"],
                   },
                   {
                     name: "LastName",
-                    validator: validationService.validateName,
+                    validator: validation.validateName,
                     args: ["Last Name"],
                   },
                   {
                     name: "Phone",
-                    validator: validationService.composeValidator([
-                      validationService.validateRequired,
-                      validationService.validatePhone,
+                    validator: validation.composeValidator([
+                      validation.validateRequired,
+                      validation.validatePhone,
                     ]),
                   },
                   {
                     name: "Email",
-                    validator: validationService.composeValidator([
-                      validationService.validateRequired,
-                      validationService.validateEmail,
+                    validator: validation.composeValidator([
+                      validation.validateRequired,
+                      validation.validateEmail,
                     ]),
                   },
                   {
                     name: "Password",
-                    validator: validationService.validatePasswordCreation,
+                    validator: validation.validatePasswordCreation,
                   },
                 ],
                 values
               )
             }
             onSubmit={async (
-              values: RegistrationValues,
+              values,
               { setErrors, setSubmitting }: FormikHelpers<RegistrationValues>
             ) => {
               setSubmitting(true);
-              loading.begin();
+              // loading?.begin(); // Uncomment if you use loading hook
 
               const formattedValues: RegistrationValues = {
                 ...values,
@@ -159,13 +155,15 @@ const RegistrationPage: React.FC = () => {
               try {
                 const response = await registerUser(formattedValues);
                 setSubmitting(false);
-                loading.end();
+                // loading?.end(); // Uncomment if you use loading hook
 
                 if (response.ok) {
-                  analyticsService.fireEvent("event-form-submit", {
+                  fireEvent("event-form-submit", {
                     formName: "Register Account",
                   });
+
                   const data = await response.json();
+
                   // Assuming data is an array of { key: string, value: string }
                   const userObject = data.find(
                     (item: { key: string; value: string }) =>
@@ -193,28 +191,26 @@ const RegistrationPage: React.FC = () => {
                     null;
 
                   if (errMsg) {
-                    showToast({
-                      message: errMsg,
-                      type: "error",
-                    });
+                    // showToast({
+                    //   message: errMsg,
+                    //   type: "error",
+                    // });
                   }
 
-                  analyticsService.fireEvent("event-form-submit-invalid", {
+                  fireEvent("event-form-submit-invalid", {
                     formName: "Register Account",
                   });
 
-                  setErrors(
-                    validationService.formikErrorsFor(updatedErrorsArr)
-                  );
+                  setErrors(validation.formikErrorsFor(updatedErrorsArr));
                 }
               } catch (error) {
                 setSubmitting(false);
-                loading.end();
+                // loading?.end();
                 Sentry.captureException(error);
-                showToast({
-                  message: "An unexpected error occurred. Please try again.",
-                  type: "error",
-                });
+                // showToast({
+                //   message: "An unexpected error occurred. Please try again.",
+                //   type: "error",
+                // });
               }
             }}
           >
@@ -232,7 +228,7 @@ const RegistrationPage: React.FC = () => {
                 noValidate
               >
                 <fieldset className="form__fields">
-                  <Textfield
+                  <TextField
                     id="register-npn"
                     className="mb-4"
                     label="National Producer Number"
@@ -241,31 +237,40 @@ const RegistrationPage: React.FC = () => {
                     value={values.NPN}
                     onChange={handleChange}
                     onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
+                      fireEvent("leaveField", {
                         field: "npn",
                         formName: "registration",
                       });
                       return handleBlur(e);
                     }}
-                    error={(touched.NPN && errors.NPN) || errors.Global}
-                    auxLink={
-                      <div
-                        className={Styles.forgot}
-                        data-gtm="login-forgot-npn"
-                      >
-                        <a
-                          href="https://nipr.com/help/look-up-your-npn"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm link text-bold"
-                        >
-                          Forgot NPN?
-                        </a>
-                      </div>
+                    error={Boolean(
+                      (touched.NPN && errors.NPN) || errors.Global
+                    )}
+                    helperText={
+                      (touched.NPN && errors.NPN) || errors.Global || ""
                     }
+                    InputProps={{
+                      endAdornment: (
+                        <div
+                          className={Styles.forgot}
+                          data-gtm="login-forgot-npn"
+                        >
+                          <a
+                            href="https://nipr.com/help/look-up-your-npn"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm link text-bold"
+                          >
+                            Forgot NPN?
+                          </a>
+                        </div>
+                      ),
+                    }}
+                    disabled={Boolean(hasNPN)}
                   />
+
                   <div className="first-last-name">
-                    <Textfield
+                    <TextField
                       id="register-fname"
                       label="First Name"
                       placeholder="Enter your first name"
@@ -273,19 +278,25 @@ const RegistrationPage: React.FC = () => {
                       value={values.FirstName}
                       onChange={handleChange}
                       onBlur={(e) => {
-                        analyticsService.fireEvent("leaveField", {
+                        fireEvent("leaveField", {
                           field: "firstName",
                           formName: "registration",
                         });
                         return handleBlur(e);
                       }}
-                      error={
+                      error={Boolean(
                         (touched.FirstName && errors.FirstName) || errors.Global
+                      )}
+                      helperText={
+                        (touched.FirstName && errors.FirstName) ||
+                        errors.Global ||
+                        ""
                       }
                     />
                   </div>
+
                   <div className="first-last-name">
-                    <Textfield
+                    <TextField
                       id="register-lname"
                       className="mb-4"
                       label="Last Name"
@@ -294,37 +305,50 @@ const RegistrationPage: React.FC = () => {
                       value={values.LastName}
                       onChange={handleChange}
                       onBlur={(e) => {
-                        analyticsService.fireEvent("leaveField", {
+                        fireEvent("leaveField", {
                           field: "lastName",
                           formName: "registration",
                         });
                         return handleBlur(e);
                       }}
-                      error={
+                      error={Boolean(
                         (touched.LastName && errors.LastName) || errors.Global
+                      )}
+                      helperText={
+                        (touched.LastName && errors.LastName) ||
+                        errors.Global ||
+                        ""
                       }
                     />
                   </div>
-                  <Textfield
+
+                  <TextField
                     id="register-email"
                     type="email"
                     label="Email Address"
                     placeholder="Enter your email address"
                     name="Email"
                     value={values.Email}
-                    readOnly={!!hasEmail}
+                    InputProps={{
+                      readOnly: Boolean(hasEmail),
+                    }}
                     onChange={handleChange}
                     onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
+                      fireEvent("leaveField", {
                         field: "emailAddress",
                         formName: "registration",
                       });
                       return handleBlur(e);
                     }}
-                    error={(touched.Email && errors.Email) || errors.Global}
+                    error={Boolean(
+                      (touched.Email && errors.Email) || errors.Global
+                    )}
+                    helperText={
+                      (touched.Email && errors.Email) || errors.Global || ""
+                    }
                   />
 
-                  <Textfield
+                  <TextField
                     id="register-phone"
                     className="mb-4"
                     label="Phone Number"
@@ -334,16 +358,21 @@ const RegistrationPage: React.FC = () => {
                     value={values.Phone}
                     onChange={handleChange}
                     onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
+                      fireEvent("leaveField", {
                         field: "phoneNumber",
                         formName: "registration",
                       });
                       return handleBlur(e);
                     }}
-                    error={(touched.Phone && errors.Phone) || errors.Global}
+                    error={Boolean(
+                      (touched.Phone && errors.Phone) || errors.Global
+                    )}
+                    helperText={
+                      (touched.Phone && errors.Phone) || errors.Global || ""
+                    }
                   />
 
-                  <Textfield
+                  <TextField
                     id="register-password"
                     type="password"
                     label="Create Password"
@@ -352,63 +381,53 @@ const RegistrationPage: React.FC = () => {
                     value={values.Password}
                     onChange={handleChange}
                     onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
+                      fireEvent("leaveField", {
                         field: "password",
                         formName: "registration",
                       });
                       return handleBlur(e);
                     }}
-                    error={
+                    error={Boolean(
                       (touched.Password && errors.Password) || errors.Global
-                    }
-                    success={
+                    )}
+                    helperText={
                       touched.Password && !errors.Password && !errors.Global
+                        ? "Password looks good"
+                        : (touched.Password && errors.Password) ||
+                          errors.Global ||
+                          ""
                     }
-                    focusBanner={
-                      <div className="form-tip">
-                        <p>Your password must: </p>
-                        <ul className="list-basic">
-                          <li>Be at least 8 characters long</li>
-                          <li>
-                            Include at least one uppercase and lowercase letter
-                          </li>
-                          <li>Include at least one number</li>
-                          <li>
-                            Include at least one non-alphanumeric character
-                          </li>
-                        </ul>
-                      </div>
-                    }
-                    focusBannerVisible={Boolean(errors.Password)}
+                    // Optional: show password requirements
+                    FormHelperTextProps={{ component: "div" }}
                   />
+
                   <div className="centered-flex-col">
                     <Button
-                      className={analyticsService.clickClass(
-                        "registration-submit"
-                      )}
+                      // className={analyticsService.clickClass("registration-submit")}
                       type="submit"
                       size="large"
                     >
                       <Box mx="3rem">Submit</Box>
                     </Button>
                   </div>
+
                   {clientId !== "AgentMobile" && (
                     <div className="centered-flex-col">
                       <p>Already have an account?</p>
                       {clientId === "ILSClient" ? (
-                        <TextButton
+                        <Link
                           href={LEADCENTER_LOGIN_URL}
                           className="text-sm link text-bold"
                         >
                           Login
-                        </TextButton>
+                        </Link>
                       ) : (
-                        <TextButton
+                        <Link
                           onClick={login}
                           className="text-sm link text-bold"
                         >
                           Login
-                        </TextButton>
+                        </Link>
                       )}
                     </div>
                   )}

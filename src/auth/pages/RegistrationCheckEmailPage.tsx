@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 
 import useClientId from "hooks/auth/useClientId";
 import useFetch from "hooks/useFetch";
-import useQueryParams from "hooks/useQueryParams";
+import useQueryParams from "@/hooks/useQueryParams";
 
 import InfoIcon from "components/icons/info";
 

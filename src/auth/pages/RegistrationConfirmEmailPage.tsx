@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useClientId from "hooks/auth/useClientId";
-import useQueryParams from "hooks/useQueryParams";
+import useQueryParams from "@/hooks/useQueryParams";
 import validationService from "services/validationService";
 
 interface ConfirmEmailValues {

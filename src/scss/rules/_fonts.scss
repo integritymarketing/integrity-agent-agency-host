@@ -1,0 +1,204 @@
+@use "../defines/fontSizes" as fontSizes;
+@use "../defines/mediaQueries";
+
+.labelLarge {
+  font-size: fontSizes.$font-size-16;
+  font-weight: bold;
+  line-height: fontSizes.$line-height-24;
+}
+
+.labelSmall {
+  font-size: fontSizes.$font-size-12;
+  font-weight: bold;
+  line-height: fontSizes.$line-height-16;
+}
+
+.body {
+  font-size: fontSizes.$font-size-16;
+  line-height: fontSizes.$line-height-24;
+}
+
+.legal {
+  font-size: fontSizes.$font-size-12;
+  line-height: fontSizes.$line-height-16;
+}
+
+.xLarge {
+  font-size: fontSizes.$font-size-32;
+  font-weight: bold;
+  line-height: fontSizes.$line-height-40;
+}
+
+.large {
+  font-size: fontSizes.$font-size-24;
+  font-weight: bold;
+  line-height: fontSizes.$line-height-32;
+}
+
+.medium {
+  font-size: fontSizes.$font-size-20;
+  font-weight: bold;
+  line-height: fontSizes.$line-height-28;
+}
+
+.small {
+  font-size: fontSizes.$font-size-16;
+  font-weight: bold;
+  line-height: fontSizes.$line-height-24;
+}
+
+@include mediaQueries.xLarge {
+  .xLarge {
+    font-size: fontSizes.$font-size-52;
+    line-height: fontSizes.$line-height-64;
+  }
+
+  .large {
+    font-size: fontSizes.$font-size-36;
+    line-height: fontSizes.$line-height-48;
+  }
+
+  .medium {
+    font-size: fontSizes.$font-size-28;
+    line-height: fontSizes.$line-height-36;
+  }
+
+  .small {
+    font-size: fontSizes.$font-size-24;
+    line-height: fontSizes.$line-height-32;
+  }
+}
+
+@include mediaQueries.large {
+  .xLarge {
+    font-size: fontSizes.$font-size-48;
+    line-height: fontSizes.$line-height-60;
+  }
+
+  .large {
+    font-size: fontSizes.$font-size-32;
+    line-height: fontSizes.$line-height-40;
+  }
+
+  .medium {
+    font-size: fontSizes.$font-size-28;
+    line-height: fontSizes.$line-height-36;
+  }
+
+  .small {
+    font-size: fontSizes.$font-size-20;
+    line-height: fontSizes.$line-height-28;
+  }
+}
+
+@include mediaQueries.medium {
+  .xLarge {
+    font-size: fontSizes.$font-size-40;
+    line-height: fontSizes.$line-height-48;
+  }
+
+  .large {
+    font-size: fontSizes.$font-size-32;
+    line-height: fontSizes.$line-height-40;
+  }
+
+  .medium {
+    font-size: fontSizes.$font-size-24;
+    line-height: fontSizes.$line-height-32;
+  }
+
+  .small {
+    font-size: fontSizes.$font-size-20;
+    line-height: fontSizes.$line-height-28;
+  }
+}
+
+.fontSize11 {
+  font-size: fontSizes.$font-size-11;
+  line-height: fontSizes.$line-height-14;
+}
+
+.fontSize12 {
+  font-size: fontSizes.$font-size-12;
+  line-height: fontSizes.$line-height-16;
+}
+
+.fontSize13 {
+  font-size: fontSizes.$font-size-13;
+  line-height: fontSizes.$line-height-18;
+}
+
+.fontSize14 {
+  font-size: fontSizes.$font-size-14;
+  line-height: fontSizes.$line-height-20;
+}
+
+.fontSize16 {
+  font-size: fontSizes.$font-size-16;
+  line-height: fontSizes.$line-height-24;
+}
+
+.fontSize18 {
+  font-size: fontSizes.$font-size-18;
+  line-height: fontSizes.$line-height-26;
+}
+
+.fontSize20 {
+  font-size: fontSizes.$font-size-20;
+  line-height: fontSizes.$line-height-30;
+}
+
+.fontSize22 {
+  font-size: fontSizes.$font-size-22;
+  line-height: fontSizes.$line-height-32;
+}
+
+.fontSize24 {
+  font-size: fontSizes.$font-size-24;
+  line-height: fontSizes.$line-height-36;
+}
+
+.fontSize26 {
+  font-size: fontSizes.$font-size-26;
+  line-height: fontSizes.$line-height-38;
+}
+
+.fontSize28 {
+  font-size: fontSizes.$font-size-28;
+  line-height: fontSizes.$line-height-42;
+}
+
+.fontSize30 {
+  font-size: fontSizes.$font-size-30;
+  line-height: fontSizes.$line-height-42;
+}
+
+.fontSize32 {
+  font-size: fontSizes.$font-size-32;
+  line-height: fontSizes.$line-height-46;
+}
+
+.fontSize36 {
+  font-size: fontSizes.$font-size-36;
+  line-height: fontSizes.$line-height-48;
+}
+
+.fontSize40 {
+  font-size: fontSizes.$font-size-40;
+  line-height: fontSizes.$line-height-52;
+}
+
+.fontSize42 {
+  font-size: fontSizes.$font-size-42;
+  line-height: fontSizes.$line-height-60;
+}
+
+.fontSize48 {
+  font-size: fontSizes.$font-size-48;
+  line-height: fontSizes.$line-height-64;
+}
+
+.fontSize52 {
+  font-size: fontSizes.$font-size-52;
+  line-height: fontSizes.$line-height-64;
+}

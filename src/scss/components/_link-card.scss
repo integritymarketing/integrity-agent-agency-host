@@ -1,0 +1,113 @@
+@use "sass:math";
+
+.link-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-gap: 2.5rem;
+}
+
+.link-card {
+  position: relative;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease;
+  box-shadow: 0 1rem 1.5rem rgb(0 0 0 / 5%);
+  color: var(--invert-text-color);
+
+  &::before {
+    content: "";
+    display: block;
+    padding-bottom: math.div(240, 373) * 100%;
+  }
+
+  &__img,
+  &__link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__img {
+    transition: transform 0.25s ease, filter 0.25s ease;
+  }
+
+  &__link {
+    content: "";
+    background-image: linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 0%) 0%,
+      rgb(0 0 0 / 80%) 66.666%,
+      rgb(0 0 0 / 90%)
+    );
+    background-size: 100% 150%;
+    background-position: 0 0;
+    padding: 2rem;
+    display: flex;
+    align-items: stretch;
+    color: inherit;
+    text-decoration: none;
+    transition: background-position 0.25s ease;
+  }
+
+  &__link-text {
+    display: flex;
+    align-items: flex-end;
+    transition: transform 0.25s ease 0.125s;
+  }
+
+  &__link-text > svg {
+    margin: 0 0 0.25rem 0.5rem;
+    transition: transform 0.25s ease;
+  }
+
+  &__desc {
+    position: absolute;
+    top: 4.75rem;
+    left: 2rem;
+    right: 2rem;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(20%);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  &:hover,
+  &--focus {
+    box-shadow: 0 1rem 1.5rem rgb(0 0 0 / 20%);
+  }
+
+  &:hover > &__img,
+  &--focus > &__img {
+    transform: scale(1.05);
+    filter: blur(5px);
+  }
+
+  &:hover > &__link,
+  &--focus > &__link {
+    background-position: 0 100%;
+  }
+
+  &:hover &__link-text,
+  &--focus &__link-text {
+    transform: translateY(calc(-100% + 1.75rem));
+    transition: transform 0.25s ease;
+  }
+
+  &:hover &__link-text > svg,
+  &--focus &__link-text > svg {
+    transform: translateX(0.5rem);
+  }
+
+  &:hover > &__desc,
+  &--focus > &__desc {
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 0.25s ease 0.125s, opacity 0.25s ease 0.125s;
+  }
+
+  &--focus &__link {
+    outline-offset: -10px;
+  }
+}
