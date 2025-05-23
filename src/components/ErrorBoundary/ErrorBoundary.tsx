@@ -48,6 +48,7 @@ class ErrorBoundary extends React.Component<
               </div>
             )}
             <p>Please try refreshing the page or contact support.</p>
+            <p>{JSON.stringify(this.state.error)}</p>
           </div>
         )
       );

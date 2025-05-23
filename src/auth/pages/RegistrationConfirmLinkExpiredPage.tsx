@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import { useNavigate } from "react-router-dom";
-import useQueryParams from "hooks/useQueryParams";
+import useQueryParams from "@/hooks/useQueryParams";
 import useClientId from "hooks/auth/useClientId";
 import useFetch from "hooks/useFetch";
-import usePortalUrl from "hooks/usePortalUrl";
+import usePortalUrl from "@/hooks/usePortalUrl";
 
 const ConfirmationPage: React.FC = () => {
   const navigate = useNavigate();

@@ -13,6 +13,7 @@ import ResendButtonWithModal from "partials/resend-email";
 import analyticsService from "services/analyticsService";
 
 const ForgotPasswordSentPage: React.FC = () => {
+  // Destructure Post and type it as a function returning Promise<Response>
   const { Post: requestPasswordReset } = useFetch(
     `${import.meta.env.VITE_AUTH_AUTHORITY_URL}/forgotpassword`,
     true,

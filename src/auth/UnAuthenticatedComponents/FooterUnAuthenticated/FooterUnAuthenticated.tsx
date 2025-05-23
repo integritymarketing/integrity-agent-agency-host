@@ -3,15 +3,13 @@ import styles from "./FooterUnAuthenticated.module.scss";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Typography } from "@mui/material";
 import Integrity from "./Integrity.svg";
-import usePortalUrl from "hooks/usePortalUrl";
-import useClientId from "hooks/auth/useClientId";
-import ILSLogo from "../../images/auth/lead-center-rgb.png";
-import useQueryParams from "hooks/useQueryParams";
+import usePortalUrl from "@/hooks/usePortalUrl";
+import useClientId from "@/hooks/useClientId";
+import ILSLogo from "./lead-center-rgb.png";
 
 export const FooterUnAuthenticated: React.FC = () => {
   const portalUrl = usePortalUrl();
   const clientId = useClientId();
-  const params = useQueryParams(); // kept for future if used, otherwise removable
 
   return (
     <Grid
@@ -22,7 +20,7 @@ export const FooterUnAuthenticated: React.FC = () => {
       px={{ xs: "0rem", sm: "2rem", md: "8.5rem" }}
     >
       <Grid container>
-        {clientId !== "AngentMobile" && (
+        {clientId !== "AgentMobile" && (
           <div className={styles.hideForWebMobile}>
             <a
               href={`${portalUrl ?? ""}/terms`}

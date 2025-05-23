@@ -8,7 +8,7 @@ import { Formik, FormikHelpers } from "formik";
 
 import useClientId from "hooks/auth/useClientId";
 import useLoading from "hooks/useLoading";
-import useQueryParams from "hooks/useQueryParams";
+import useQueryParams from "@/hooks/useQueryParams";
 import useFetch from "hooks/useFetch";
 
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";

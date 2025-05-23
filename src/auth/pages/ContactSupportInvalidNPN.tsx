@@ -2,18 +2,14 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
-import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
-import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
-import MailIcon from "components/icons/v2-mail";
-import PhoneIcon from "components/icons/v2-phone";
-
-interface RouteParams {
-  npnId?: string;
-}
+import { ContainerUnAuthenticated } from "../UnAuthenticatedComponents/ContainerUnAuthenticated/ContainerUnAuthenticated";
+import { FooterUnAuthenticated } from "../UnAuthenticatedComponents/FooterUnAuthenticated/FooterUnAuthenticated";
+import { HeaderUnAuthenticated } from "../UnAuthenticatedComponents/HeaderUnAuthenticated/HeaderUnAuthenticated";
+import MailIcon from "@/assets/v2-mail";
+import PhoneIcon from "@/assets/v2-phone";
 
 const ContactSupportInvalidNPN: React.FC = () => {
-  const { npnId } = useParams<RouteParams>();
+  const { npnId } = useParams();
   const navigate = useNavigate();
 
   const goToForgotPassword = () => {

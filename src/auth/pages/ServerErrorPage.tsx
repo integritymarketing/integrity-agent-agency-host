@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
-import useQueryParams from "hooks/useQueryParams";
+import useQueryParams from "@/hooks/useQueryParams";
 import useFetch from "hooks/useFetch";
 
 const ServerErrorPage: React.FC = () => {
