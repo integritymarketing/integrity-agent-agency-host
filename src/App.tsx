@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, useLocation } from "react-router-dom";
 
 import "./App.css";
-import AppRoutes from "@/routes/AppRoutes.tsx";
+import AppRoutes from "./routes/AppRoutes";
 import { AuthProvider } from "./contexts/auth0Provider/AuthContext";
 import { AgentGlobalProvider } from "@/contexts";
 import ErrorBoundary from "@/components/ErrorBoundary";
