@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 
-import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
+import BaseConfirmationPage from "auth/pages/BaseConfirmationPage";
 
 const PasswordUpdatePage: React.FC = () => {
   return (

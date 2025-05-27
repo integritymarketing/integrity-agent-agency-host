@@ -1,18 +1,14 @@
 import { BrowserRouter } from "react-router-dom";
 import "./App.css";
-import AppRoutes from "@/routes/AppRoutes.tsx";
+import AppRoutes from "./routes/AppRoutes";
 import { AuthProvider } from "./contexts/auth0Provider/AuthContext";
-import { AgentGlobalProvider } from "@/contexts";
-import ErrorBoundary from "@/components/ErrorBoundary";
-
+import { AgentGlobalProvider } from "./contexts";
+import ErrorBoundary from "./components/ErrorBoundary";
+import Layout from "./Layout";
 
 function App() {
     return (
-        <>
-        <div className="card">
-            <h1>Host Application</h1>
-        </div>
-        <div className="App">
+        <Layout>
             <ErrorBoundary>
                 <BrowserRouter>
                     <AuthProvider>
@@ -22,10 +18,8 @@ function App() {
                     </AuthProvider>
                 </BrowserRouter>
             </ErrorBoundary>
-        </div>
-        </>
+        </Layout>
     );
 }
-
 
 export default App;
