@@ -1,36 +1,38 @@
 import React, { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 
-import useFetch from "hooks/useFetch";
+import useFetch from "@/hooks/useFetch";
+import { ContainerUnAuthenticated } from "../UnAuthenticatedComponents/ContainerUnAuthenticated/ContainerUnAuthenticated";
+import { FooterUnAuthenticated } from "../UnAuthenticatedComponents/FooterUnAuthenticated/FooterUnAuthenticated";
+import { HeaderUnAuthenticated } from "../UnAuthenticatedComponents/HeaderUnAuthenticated/HeaderUnAuthenticated";
+import CheckIcon from "@/assets/v2-check";
 
-import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
-import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
-import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
-import CheckIcon from "components/icons/v2-check";
+import ResendButtonWithModal from "../UnAuthenticatedComponents/Resend-email";
+import { ResendFnParams } from "../UnAuthenticatedComponents/Resend-email/ResendEmail.types";
 
-import ResendButtonWithModal from "partials/resend-email";
-
-import analyticsService from "services/analyticsService";
+import useAnalytics from "@/hooks/useAnalytics";
 
 const ForgotPasswordSentPage: React.FC = () => {
-  // Destructure Post and type it as a function returning Promise<Response>
   const { Post: requestPasswordReset } = useFetch(
-    `${import.meta.env.VITE_AUTH_AUTHORITY_URL}/forgotpassword`,
-    true,
-    true
+    `${import.meta.env.VITE_AUTH_AUTHORITY_URL}/forgotpassword`
   );
 
   useEffect(() => {
-    analyticsService.fireEvent("event-content-load", {
+    fireEvent("event-content-load", {
       pagePath: "/login/forgot-NPN/confirmation/",
     });
   }, []);
 
+  const { fireEvent, clickClass } = useAnalytics();
+
+  const resendPasswordReset: (
+    data: ResendFnParams
+  ) => Promise<{ status: number }> = async (data) => {
+    const response = await requestPasswordReset({ body: data });
+    return { status: (response as any)?.status ?? 200 };
+  };
+
   return (
     <>
-      <Helmet>
-        <title>Integrity - Password Reset Sent</title>
-      </Helmet>
       <div className="content-frame v2">
         <HeaderUnAuthenticated />
         <ContainerUnAuthenticated>
@@ -43,8 +45,8 @@ const ForgotPasswordSentPage: React.FC = () => {
             data-gtm="reesend-forgot-password-email"
           >
             <ResendButtonWithModal
-              resendFn={requestPasswordReset}
-              btnClass={analyticsService.clickClass("forgot-resendnow")}
+              resendFn={resendPasswordReset}
+              btnClass={clickClass("forgot-resendnow")}
             />
           </div>
         </ContainerUnAuthenticated>

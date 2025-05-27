@@ -1,12 +1,12 @@
 import React, { useCallback } from "react";
-import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
+import BaseConfirmationPage from "./BaseConfirmationPage";
 import { useNavigate } from "react-router-dom";
 import useQueryParams from "@/hooks/useQueryParams";
-import useClientId from "hooks/auth/useClientId";
-import useFetch from "hooks/useFetch";
+import useClientId from "@/hooks/useClientId";
+import useFetch from "@/hooks/useFetch";
 import usePortalUrl from "@/hooks/usePortalUrl";
 
-const ConfirmationPage: React.FC = () => {
+const RegistrationConfirmLinkExpiredPage: React.FC = () => {
   const navigate = useNavigate();
   const queryParams = useQueryParams();
   const clientId = useClientId();
@@ -22,11 +22,19 @@ const ConfirmationPage: React.FC = () => {
   const handleResendConfirmEmail = useCallback(async () => {
     try {
       const response = await sendConfirmationEmail({
-        npn,
-        ClientId: clientId,
+        body: {
+          npn,
+          ClientId: clientId,
+        },
       });
 
-      if (response.ok) {
+      if (
+        response &&
+        typeof response === "object" &&
+        "ok" in response &&
+        typeof (response as any).ok === "boolean" &&
+        (response as any).ok
+      ) {
         navigate(`/registration-email-sent?npn=${encodeURIComponent(npn)}`);
       } else {
         navigate(
@@ -77,4 +85,4 @@ const ConfirmationPage: React.FC = () => {
   );
 };
 
-export default ConfirmationPage;
+export default RegistrationConfirmLinkExpiredPage;

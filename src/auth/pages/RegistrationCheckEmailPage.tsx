@@ -1,37 +1,39 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
 
-import useClientId from "hooks/auth/useClientId";
-import useFetch from "hooks/useFetch";
+import useClientId from "@/hooks/useClientId";
+import useFetch from "@/hooks/useFetch";
 import useQueryParams from "@/hooks/useQueryParams";
 
-import InfoIcon from "components/icons/info";
+import InfoIcon from "@/components/Temp/icons/info";
 
-import ResendButtonWithModal from "partials/resend-email";
+import ResendButtonWithModal from "../UnAuthenticatedComponents/Resend-email";
 
-import analyticsService from "services/analyticsService";
+import useAnalytics from "@/hooks/useAnalytics";
 
-import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
+import BaseConfirmationPage from "./BaseConfirmationPage";
 
-const ConfirmationPage: React.FC = () => {
+const RegistrationCheckEmailPage: React.FC = () => {
   const clientId = useClientId();
   const queryParams = useQueryParams();
-  const { Post: resendConfirmationEmail } = useFetch(
+  const { clickClass } = useAnalytics();
+  const { Post: resendConfirmationEmailRaw } = useFetch(
     `${import.meta.env.VITE_AGENTS_URL}/api/v1.0/Account/ResendVerificationEmail`,
     true
   );
+
+  const resendConfirmationEmail = async (data: any) => {
+    const result = await resendConfirmationEmailRaw({ body: data });
+    return { status: (result as any)?.status ?? 200 };
+  };
   const isModeError = queryParams.get("mode") === "error";
 
   return (
     <>
-      <Helmet>
-        <title>Integrity - Account Registration</title>
-      </Helmet>
       <BaseConfirmationPage
         footer={
           <ResendButtonWithModal
             resendFn={resendConfirmationEmail}
-            btnClass={analyticsService.clickClass("registration-resendnow")}
+            btnClass={clickClass("registration-resendnow")}
           />
         }
         title={isModeError ? "Something’s not right" : "Confirm your account"}
@@ -98,4 +100,4 @@ const ConfirmationPage: React.FC = () => {
   );
 };
 
-export default ConfirmationPage;
+export default RegistrationCheckEmailPage;

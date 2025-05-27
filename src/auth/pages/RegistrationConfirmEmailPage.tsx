@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useClientId from "hooks/auth/useClientId";
+import useClientId from "@/hooks/useClientId";
 import useQueryParams from "@/hooks/useQueryParams";
-import validationService from "services/validationService";
+import useValidationService from "@/hooks/useValidationService";
 
 interface ConfirmEmailValues {
   npn: string | null;
@@ -30,6 +30,7 @@ const RegistrationConfirmEmailPage: React.FC = () => {
   const navigate = useNavigate();
   const params = useQueryParams();
   const clientId = useClientId();
+  const validationService = useValidationService();
 
   useEffect(() => {
     const handleConfirmEmail = async () => {

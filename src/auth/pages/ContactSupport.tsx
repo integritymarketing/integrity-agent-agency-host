@@ -1,5 +1,4 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
 
 import { ContainerUnAuthenticated } from "../UnAuthenticatedComponents/ContainerUnAuthenticated/ContainerUnAuthenticated";
 import { FooterUnAuthenticated } from "../UnAuthenticatedComponents/FooterUnAuthenticated/FooterUnAuthenticated";
@@ -10,9 +9,6 @@ import PhoneIcon from "@/assets/v2-phone";
 const ContactSupport: React.FC = () => {
   return (
     <>
-      <Helmet>
-        <title>Integrity - Contact Support</title>
-      </Helmet>
       <div className="content-frame v2">
         <HeaderUnAuthenticated />
         <ContainerUnAuthenticated>

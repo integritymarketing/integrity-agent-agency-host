@@ -1,23 +1,27 @@
 import React, { useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button, Typography, TextField } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { Formik, FormikHelpers } from "formik";
 
 import useClientId from "@/hooks/useClientId";
-import useFetch from "hooks/useFetch";
+import useFetch from "@/hooks/useFetch";
 // import useLoading from "hooks/useLoading";
-import useQueryParams from "@/hooks/useQueryParams";
 
 import { ContainerUnAuthenticated } from "../UnAuthenticatedComponents/ContainerUnAuthenticated/ContainerUnAuthenticated";
 import { FooterUnAuthenticated } from "../UnAuthenticatedComponents/FooterUnAuthenticated/FooterUnAuthenticated";
 import { HeaderUnAuthenticated } from "../UnAuthenticatedComponents/HeaderUnAuthenticated/HeaderUnAuthenticated";
 import { MobileHeaderUnAuthenticated } from "../UnAuthenticatedComponents/MobileHeaderUnAuthenticated/MobileHeaderUnAuthenticated";
 
-import useAnalytics from "hooks/useAnalytics";
-import useValidationService from "hooks/useValidationService";
+import useAnalytics from "@/hooks/useAnalytics";
+import useValidationService from "@/hooks/useValidationService";
+
+import { Button } from "@/components/Temp/Button";
+import Heading2 from "@/components/Temp/Heading2";
+
+import Paragraph from "@/components/Temp/Paragraph";
+import Textfield from "@/components/Temp/textfield";
 
 import Styles from "./AuthPages.module.scss";
 
@@ -31,8 +35,7 @@ const ForgotPasswordpage: React.FC = () => {
   const navigate = useNavigate();
   // const loading = useLoading();
   const clientId = useClientId();
-  const params = useQueryParams();
-  const { fireEvent } = useAnalytics();
+  const { fireEvent, clickClass } = useAnalytics();
   const validation = useValidationService();
 
   const { Post: requestPasswordReset } = useFetch(
@@ -57,20 +60,17 @@ const ForgotPasswordpage: React.FC = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{appTitle}</title>
-      </Helmet>
       <div className="content-frame v2">
         <HeaderUnAuthenticated />
         <MobileHeaderUnAuthenticated />
         <ContainerUnAuthenticated>
-          <Typography variant="h5" color="blue" fontWeight="bold">
-            Reset your password
-          </Typography>
-
-          <Typography variant="h2" color="blue" fontWeight="bold">
-            Enter your NPN to reset your password.
-          </Typography>
+          <Heading2 className={Styles.resetTitle} text="Reset your password" />
+          <Paragraph
+            className={Styles.enterYourNPN}
+            text={"Enter your NPN to reset your password."}
+          >
+            {""}
+          </Paragraph>
 
           <Formik<ForgotPasswordValues>
             initialValues={{ Username: "" }}
@@ -152,52 +152,51 @@ const ForgotPasswordpage: React.FC = () => {
                 noValidate
               >
                 <fieldset className="form__fields">
-                  <TextField
+                  <Textfield
                     id="forgot-password-username"
                     label="National Producer Number"
                     placeholder="Enter your NPN"
                     name="Username"
                     value={values.Username}
-                    onChange={handleChange}
-                    onBlur={(e) => {
+                    onChange={
+                      handleChange as React.ChangeEventHandler<HTMLInputElement>
+                    }
+                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
                       fireEvent("leaveField", {
                         field: "username",
                         formName: "forgot",
                       });
                       return handleBlur(e);
                     }}
-                    error={Boolean(
+                    error={
                       (touched.Username && errors.Username) || errors.Global
-                    )}
-                    helperText={
-                      (touched.Username && errors.Username) ||
-                      errors.Global ||
-                      ""
+                        ? null
+                        : undefined
                     }
-                    InputProps={{
-                      endAdornment: (
-                        <div
-                          className={Styles.forgot}
-                          data-gtm="login-forgot-npn"
+                    auxLink={
+                      <div
+                        className={Styles.forgot}
+                        data-gtm="login-forgot-npn"
+                      >
+                        <a
+                          href="https://nipr.com/help/look-up-your-npn"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm link text-bold"
                         >
-                          <a
-                            href="https://nipr.com/help/look-up-your-npn"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm link text-bold"
-                          >
-                            Forgot NPN?
-                          </a>
-                        </div>
-                      ),
-                    }}
+                          Forgot NPN?
+                        </a>
+                      </div>
+                    }
+                    readOnly={false}
                   />
                   <div className="centered-flex-col">
                     <Box mt="3rem">
                       <Button
-                        // className={analyticsService.clickClass("main-login")}
+                        className={clickClass("main-login")}
                         type="submit"
                         size="large"
+                        onClick={() => {}}
                       >
                         <Box mx="3rem">Submit</Box>
                       </Button>

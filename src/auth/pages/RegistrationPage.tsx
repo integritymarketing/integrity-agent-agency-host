@@ -2,7 +2,7 @@ import * as Sentry from "@sentry/react";
 import React, { useEffect, useState } from "react";
 // import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Link, Typography, TextField } from "@mui/material";
+import { Box } from "@mui/material";
 import { Formik, FormikHelpers } from "formik";
 
 import useClientId from "@/hooks/useClientId";
@@ -16,6 +16,11 @@ import { HeaderUnAuthenticated } from "../UnAuthenticatedComponents/HeaderUnAuth
 
 import Styles from "./AuthPages.module.scss";
 import "./mobileStyle.scss";
+
+import { Button, TextButton } from "@/components/Temp/Button";
+import Heading2 from "@/components/Temp/Heading2";
+
+import Textfield from "@/components/Temp/textfield";
 
 const LEADCENTER_LOGIN_URL = "https://www.integrityleadcenter.com/login";
 
@@ -85,9 +90,10 @@ const RegistrationPage: React.FC = () => {
       <div className="content-frame v2">
         <HeaderUnAuthenticated />
         <ContainerUnAuthenticated>
-          <Typography variant="h5" color="blue" fontWeight="bold">
-            Register your account
-          </Typography>
+          <Heading2
+            className={Styles.registerTitle}
+            text="Register your account"
+          />
           <Formik<RegistrationValues>
             initialValues={{
               FirstName: "",
@@ -228,127 +234,114 @@ const RegistrationPage: React.FC = () => {
                 noValidate
               >
                 <fieldset className="form__fields">
-                  <TextField
+                  <Textfield
                     id="register-npn"
                     className="mb-4"
                     label="National Producer Number"
                     placeholder="Enter your NPN"
                     name="NPN"
                     value={values.NPN}
+                    readOnly={false}
                     onChange={handleChange}
-                    onBlur={(e) => {
+                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
                       fireEvent("leaveField", {
                         field: "npn",
                         formName: "registration",
                       });
                       return handleBlur(e);
                     }}
-                    error={Boolean(
+                    error={
                       (touched.NPN && errors.NPN) || errors.Global
-                    )}
-                    helperText={
-                      (touched.NPN && errors.NPN) || errors.Global || ""
+                        ? null
+                        : undefined
                     }
-                    InputProps={{
-                      endAdornment: (
-                        <div
-                          className={Styles.forgot}
-                          data-gtm="login-forgot-npn"
+                    auxLink={
+                      <div
+                        className={Styles.forgot}
+                        data-gtm="login-forgot-npn"
+                      >
+                        <a
+                          href="https://nipr.com/help/look-up-your-npn"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm link text-bold"
                         >
-                          <a
-                            href="https://nipr.com/help/look-up-your-npn"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm link text-bold"
-                          >
-                            Forgot NPN?
-                          </a>
-                        </div>
-                      ),
-                    }}
-                    disabled={Boolean(hasNPN)}
+                          Forgot NPN?
+                        </a>
+                      </div>
+                    }
                   />
-
                   <div className="first-last-name">
-                    <TextField
+                    <Textfield
                       id="register-fname"
                       label="First Name"
                       placeholder="Enter your first name"
                       name="FirstName"
                       value={values.FirstName}
+                      readOnly={false}
                       onChange={handleChange}
-                      onBlur={(e) => {
+                      onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
                         fireEvent("leaveField", {
                           field: "firstName",
                           formName: "registration",
                         });
                         return handleBlur(e);
                       }}
-                      error={Boolean(
+                      error={
                         (touched.FirstName && errors.FirstName) || errors.Global
-                      )}
-                      helperText={
-                        (touched.FirstName && errors.FirstName) ||
-                        errors.Global ||
-                        ""
+                          ? null
+                          : undefined
                       }
                     />
                   </div>
-
                   <div className="first-last-name">
-                    <TextField
+                    <Textfield
                       id="register-lname"
                       className="mb-4"
                       label="Last Name"
                       placeholder="Enter your last name"
                       name="LastName"
                       value={values.LastName}
+                      readOnly={false}
                       onChange={handleChange}
-                      onBlur={(e) => {
+                      onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
                         fireEvent("leaveField", {
                           field: "lastName",
                           formName: "registration",
                         });
                         return handleBlur(e);
                       }}
-                      error={Boolean(
+                      error={
                         (touched.LastName && errors.LastName) || errors.Global
-                      )}
-                      helperText={
-                        (touched.LastName && errors.LastName) ||
-                        errors.Global ||
-                        ""
+                          ? null
+                          : undefined
                       }
                     />
                   </div>
-
-                  <TextField
+                  <Textfield
                     id="register-email"
                     type="email"
                     label="Email Address"
                     placeholder="Enter your email address"
                     name="Email"
                     value={values.Email}
-                    InputProps={{
-                      readOnly: Boolean(hasEmail),
-                    }}
+                    readOnly={!!hasEmail}
                     onChange={handleChange}
-                    onBlur={(e) => {
+                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
                       fireEvent("leaveField", {
                         field: "emailAddress",
                         formName: "registration",
                       });
                       return handleBlur(e);
                     }}
-                    error={Boolean(
+                    error={
                       (touched.Email && errors.Email) || errors.Global
-                    )}
-                    helperText={
-                      (touched.Email && errors.Email) || errors.Global || ""
+                        ? null
+                        : undefined
                     }
                   />
 
-                  <TextField
+                  <Textfield
                     id="register-phone"
                     className="mb-4"
                     label="Phone Number"
@@ -356,23 +349,23 @@ const RegistrationPage: React.FC = () => {
                     placeholder="XXX-XXX-XXXX"
                     name="Phone"
                     value={values.Phone}
+                    readOnly={false}
                     onChange={handleChange}
-                    onBlur={(e) => {
+                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
                       fireEvent("leaveField", {
                         field: "phoneNumber",
                         formName: "registration",
                       });
                       return handleBlur(e);
                     }}
-                    error={Boolean(
+                    error={
                       (touched.Phone && errors.Phone) || errors.Global
-                    )}
-                    helperText={
-                      (touched.Phone && errors.Phone) || errors.Global || ""
+                        ? null
+                        : undefined
                     }
                   />
 
-                  <TextField
+                  <Textfield
                     id="register-password"
                     type="password"
                     label="Create Password"
@@ -380,25 +373,37 @@ const RegistrationPage: React.FC = () => {
                     name="Password"
                     value={values.Password}
                     onChange={handleChange}
-                    onBlur={(e) => {
+                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
                       fireEvent("leaveField", {
                         field: "password",
                         formName: "registration",
                       });
                       return handleBlur(e);
                     }}
-                    error={Boolean(
+                    error={
                       (touched.Password && errors.Password) || errors.Global
-                    )}
-                    helperText={
-                      touched.Password && !errors.Password && !errors.Global
-                        ? "Password looks good"
-                        : (touched.Password && errors.Password) ||
-                          errors.Global ||
-                          ""
+                        ? null
+                        : undefined
                     }
-                    // Optional: show password requirements
-                    FormHelperTextProps={{ component: "div" }}
+                    success={
+                      touched.Password && !errors.Password && !errors.Global
+                    }
+                    focusBanner={
+                      <div className="form-tip">
+                        <p>Your password must: </p>
+                        <ul className="list-basic">
+                          <li>Be at least 8 characters long</li>
+                          <li>
+                            Include at least one uppercase and lowercase letter
+                          </li>
+                          <li>Include at least one number</li>
+                          <li>
+                            Include at least one non-alphanumeric character
+                          </li>
+                        </ul>
+                      </div>
+                    }
+                    focusBannerVisible={Boolean(errors.Password)}
                   />
 
                   <div className="centered-flex-col">
@@ -406,6 +411,7 @@ const RegistrationPage: React.FC = () => {
                       // className={analyticsService.clickClass("registration-submit")}
                       type="submit"
                       size="large"
+                      onClick={(_: React.MouseEvent<HTMLButtonElement>) => {}}
                     >
                       <Box mx="3rem">Submit</Box>
                     </Button>
@@ -415,19 +421,28 @@ const RegistrationPage: React.FC = () => {
                     <div className="centered-flex-col">
                       <p>Already have an account?</p>
                       {clientId === "ILSClient" ? (
-                        <Link
+                        <TextButton
                           href={LEADCENTER_LOGIN_URL}
                           className="text-sm link text-bold"
+                          startIcon={null}
+                          endIcon={null}
+                          onClick={(
+                            _: React.MouseEvent<HTMLAnchorElement>
+                          ) => {}}
                         >
                           Login
-                        </Link>
+                        </TextButton>
                       ) : (
-                        <Link
-                          onClick={login}
+                        <TextButton
+                          onClick={(_: React.MouseEvent<HTMLButtonElement>) =>
+                            login()
+                          }
                           className="text-sm link text-bold"
+                          startIcon={null}
+                          endIcon={null}
                         >
                           Login
-                        </Link>
+                        </TextButton>
                       )}
                     </div>
                   )}

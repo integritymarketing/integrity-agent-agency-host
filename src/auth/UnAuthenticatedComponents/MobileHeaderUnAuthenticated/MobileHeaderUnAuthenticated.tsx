@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import useClientId from "hooks/auth/useClientId";
+import useClientId from "@/hooks/useClientId";
 
 import styles from "./MobileHeaderUnAuthenticated.module.scss";
 import MobileLogo from "./mobileLogo.svg";

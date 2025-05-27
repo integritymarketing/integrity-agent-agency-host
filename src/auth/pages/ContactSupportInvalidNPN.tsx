@@ -1,5 +1,4 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { ContainerUnAuthenticated } from "../UnAuthenticatedComponents/ContainerUnAuthenticated/ContainerUnAuthenticated";
@@ -18,9 +17,6 @@ const ContactSupportInvalidNPN: React.FC = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Integrity - Contact Support</title>
-      </Helmet>
       <div className="content-frame v2">
         <HeaderUnAuthenticated />
         <ContainerUnAuthenticated>
