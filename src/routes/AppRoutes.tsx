@@ -2,8 +2,8 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 const WelcomePage = lazy(() => import("@/pages/Welcome"));
-const TestPage = lazy(() => import("@/pages/TestPage"));
-// const Dashboard = lazy(() => import("IntegrityAgentDashboard/AgentDashboard"));
+// const TestPage = lazy(() => import("@/pages/TestPage"));
+const Dashboard = lazy(() => import("IntegrityAgentDashboard/AgentDashboard"));
 const Logout = lazy(() => import("@/auth/pages/Logout"));
 const RedirectToAppropriateRoute = lazy(
   () => import("@/routes/RedirectToAppropriateRoute")
@@ -17,7 +17,7 @@ const AppRoutes: React.FC = () => (
 
       {/* Private Routes */}
 
-      <Route path="/dashboard" element={<TestPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/logout" element={<Logout />} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
