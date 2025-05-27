@@ -1,10 +1,10 @@
 import React, { ReactNode } from "react";
-import usePortalUrl from "hooks/usePortalUrl";
-import useClientId from "hooks/auth/useClientId";
-import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
-import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
-import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
-import { Button } from "packages/Button";
+import usePortalUrl from "@/hooks/usePortalUrl";
+import useClientId from "@/hooks/useClientId";
+import { ContainerUnAuthenticated } from "../UnAuthenticatedComponents/ContainerUnAuthenticated/ContainerUnAuthenticated";
+import { FooterUnAuthenticated } from "../UnAuthenticatedComponents/FooterUnAuthenticated/FooterUnAuthenticated";
+import { HeaderUnAuthenticated } from "../UnAuthenticatedComponents/HeaderUnAuthenticated";
+import { Button } from "@mui/material";
 
 const DefaultButton: React.FC = () => {
   const portalUrl = usePortalUrl();

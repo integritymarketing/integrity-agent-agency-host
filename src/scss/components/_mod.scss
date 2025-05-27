@@ -1,0 +1,89 @@
+.mod-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(288px, 1fr));
+  grid-gap: 5rem 1rem;
+  justify-items: center;
+
+  @media (width <= 975px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mod {
+  align-items: center;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 285px;
+  max-width: 320px;
+  width: 100%;
+  width: 320px;
+  padding: 30px 20px;
+  mix-blend-mode: normal;
+  opacity: 0.9;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 5%);
+  border-radius: 8px;
+}
+
+button.gtm-medicareadvantage-button,
+.gtm-medicaresupplement-button,
+.gtm-crm-button {
+  background: #0052ce;
+  color: #f8fafc !important;
+
+  &:hover {
+    background: #0052ce !important;
+  }
+}
+
+.text-color {
+  color: #2b323b;
+}
+
+.box-content {
+  width: 100%;
+
+  .body {
+    height: 50px;
+  }
+
+  a {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 21px;
+    color: #0052ce;
+    text-decoration: none;
+  }
+}
+
+.v2 {
+  .mod-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 4rem 1rem;
+    justify-items: center;
+
+    @media (width >= 768px) {
+      grid-gap: 4rem 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    @media (width >= 900px) {
+      grid-gap: 4rem;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+  }
+
+  .mod {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    max-width: none;
+    height: 310px;
+
+    @media (width >= 768px) {
+      max-width: none;
+    }
+  }
+}

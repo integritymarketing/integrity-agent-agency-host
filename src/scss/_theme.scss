@@ -1,0 +1,77 @@
+@use "mixins" as *;
+
+:root {
+  --page-bg-color: #f9fafb;
+  --main-text-color: #333;
+  --main-bg-color: #fff;
+  --admin-bg-color: #e8eaef linear-gradient(to bottom, #f5f6f8 0%, #e8eaef 100%);
+  --neutral-bg-gradient: #fff
+    linear-gradient(to bottom, rgb(0 0 0 / 60%) 0%, rgb(0 0 0 / 80%) 100%);
+  --neutral-text-color: #434a51;
+  --invert-text-color: #fff;
+  --invert-bg-color: #333;
+  --muted-text-color: #8f99a3;
+  --muted-light-text-color: #e8eaef;
+  --error-state-color: #d86a66;
+  --notice-state-color: #2082f5;
+  --error-confirm-state-color: #f0514c;
+  --error-state-notification-color: #cf4843;
+  --error-confirm-state-background: #fff1f0;
+  --success-state-color: #94d199;
+  --brand-text-color: #236c9e;
+  --brand-text-hover-color: #0079cc;
+  --brand-bg-color: #236c9e;
+  --brand-bg-hover-color: #0079cc;
+  --disabled-color: #a4aec1;
+  --disabled-contrast-color: #e8eaef;
+  --shadow-default: 0 0.25rem 0.5rem rgb(0 0 0 / 20%);
+  --card-bg: #fff;
+  --card-border-color: #e8eaef;
+  --lead-status-new: #7dcc28;
+  --lead-status-other: #b7b7b7;
+  --tooltip-background: #fff;
+  --tooltip-border: #b3adad;
+  --brand-gradient-start: #236c9e;
+  --brand-gradient-end: #0079cc;
+  --page-bg-hover: #dee1e8;
+  --form-border-default: #e3e6ec;
+  --form-border-active: #236c9e;
+  --border-light: #c7ccd1;
+  --textfield-invert-bg-color: rgb(255 255 255 / 25%);
+  --textfield-invert-bg-color-active: rgb(255 255 255 / 35%);
+  --fixed-space-0: 0;
+  --fixed-space-1: 0.5rem;
+  --fixed-space-2: 1rem;
+  --fixed-space-3: 1.5rem;
+  --fixed-space-4: 2.5rem;
+  --fixed-space-5: 5rem;
+
+  // v2
+  --v2-white: #fff;
+  --v2-black: #000;
+  --v2-page-bg-color: #f9fafb;
+  --v2-main-text-color: #1b1b1b;
+  --v2-main-border-color: #e8eaef;
+  --v2-bg-gray: #525761;
+  --v2-main-gray: #6a6a6a;
+  --v2-dark-gray: #151e29;
+  --v2-light-gray: #ddd;
+  --v2-disabled-gray: #e3e5e7;
+  --v2-disabled-gray-border: #c7ccd1;
+  --v2-disabled-gray-text: #8d8d8d;
+  --v2-disabled-button: #e4e4e4;
+  --v2-disabled-button-text: #aba7a7;
+  --v2-dark-blue: #002d72;
+  --v2-royal-blue: #0052ce;
+  --v2-old-blue: #0043a8;
+  --v2-secondary-blue-900: #00388d;
+  --v2-secondary-blue-600: #2082f5;
+  --v2-secondary-blue-400: #b9d7fb;
+  --v2-secondary-blue-200: #ddedff;
+  --v2-secondary-blue-100: #ebeef3;
+  --v2-npn-error: #d95050;
+  --v2-header-title: #002d72;
+  --v2-table-odd-row: #f3f5f8;
+  --v2-header-bg-color: #041d42;
+  --v2-footer-bg-color: #e9e9e9;
+}

@@ -1,49 +1,36 @@
 import React, { useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { useNavigate, Link } from "react-router-dom";
 
-import { Formik, FormikHelpers } from "formik";
+import { Formik } from "formik";
 
-import useFetch from "hooks/useFetch";
-import useLoading from "hooks/useLoading";
+import useFetch from "@/hooks/useFetch";
+// import useLoading from "hooks/useLoading";
 
-import CheckIcon from "components/icons/v2-check";
-import Container from "components/ui/container";
-import Textfield from "components/ui/textfield";
+import CheckIcon from "@/assets/v2-check";
+import Container from "@/components/Temp/container";
+import Textfield from "@/components/Temp/textfield";
 
-import SimpleFooter from "partials/simple-footer";
-import SimpleHeader from "partials/simple-header";
+import SimpleFooter from "../UnAuthenticatedComponents/Simple-footer";
+import SimpleHeader from "../UnAuthenticatedComponents/Simple-header";
 
-import analyticsService from "services/analyticsService";
-import validationService from "services/validationService";
+import useAnalytics from "@/hooks/useAnalytics";
+import useValidationService from "@/hooks/useValidationService";
 
-interface ApiError {
-  Key: string;
-  Value: string;
-}
-
-interface ForgotUsernameValues {
-  FirstName: string;
-  LastName: string;
-  Phone: string;
-  NPN?: string; // used for navigation in error case, optional here
-}
-
-const ForgotUsernamePage: React.FC = () => {
+export default () => {
   const navigate = useNavigate();
-  const loading = useLoading();
-  const [username, setUsername] = useState<string | undefined>(undefined);
-  const [apiErrors, setApiErrors] = useState<ApiError[]>([]);
+  // const loading = useLoading();
+  const [username, setUsername] = useState();
+  const [apiErrors, setApiErrors] = useState([]);
   const { Post: forgotUsername } = useFetch(
     `${import.meta.env.VITE_AUTH_AUTHORITY_URL}/forgotusername`
   );
 
+  const { fireEvent } = useAnalytics();
+  const validationService = useValidationService();
+
   if (username) {
     return (
-      <>
-        <Helmet>
-          <title>Integrity - Forgot Username</title>
-        </Helmet>
+      <React.Fragment>
         <div className="content-frame v2">
           <SimpleHeader />
           <Container size="small">
@@ -61,15 +48,12 @@ const ForgotUsernamePage: React.FC = () => {
           </Container>
           <SimpleFooter />
         </div>
-      </>
+      </React.Fragment>
     );
   }
 
   return (
-    <>
-      <Helmet>
-        <title>Integrity - Forgot Username</title>
-      </Helmet>
+    <React.Fragment>
       <div className="content-frame v2">
         <SimpleHeader />
         <Container size="small">
@@ -95,8 +79,8 @@ const ForgotUsernamePage: React.FC = () => {
               LastName: "",
               Phone: "",
             }}
-            validate={(values: ForgotUsernameValues) =>
-              validationService.validateMultiple(
+            validate={(values) => {
+              return validationService.validateMultiple(
                 [
                   {
                     name: "FirstName",
@@ -117,44 +101,37 @@ const ForgotUsernamePage: React.FC = () => {
                   },
                 ],
                 values
-              )
-            }
-            onSubmit={async (
-              values: ForgotUsernameValues,
-              { setErrors, setSubmitting }: FormikHelpers<ForgotUsernameValues>
-            ) => {
+              );
+            }}
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
               setSubmitting(true);
               setApiErrors([]);
               loading.begin();
 
-              try {
-                const response = await forgotUsername(values);
+              const response = await forgotUsername(values);
 
-                if (response.ok) {
-                  const email = await response.text();
-                  setUsername(email);
-                  analyticsService.fireEvent("formSubmit", {
-                    button: "forgotUsernameSubmit",
-                    pagePath: window.location.href,
-                  });
+              setSubmitting(false);
+              loading.end();
+
+              if (response.status >= 200 && response.status < 300) {
+                const email = await response.text();
+                setUsername(email);
+                fireEvent("formSubmit", {
+                  button: "forgotUsernameSubmit",
+                  pagePath: window.location.href,
+                });
+              } else {
+                const errorsArr = await response.json();
+                setApiErrors(errorsArr);
+                const errors = validationService.formikErrorsFor(errorsArr);
+
+                if (errors.Global === "account_unconfirmed") {
+                  navigate(
+                    `registration-email-sent?npn=${values.NPN}&mode=error`
+                  );
                 } else {
-                  const errorsArr: ApiError[] = await response.json();
-                  setApiErrors(errorsArr);
-                  const errors = validationService.formikErrorsFor(errorsArr);
-
-                  if (errors.Global === "account_unconfirmed") {
-                    navigate(
-                      `registration-email-sent?npn=${values.NPN}&mode=error`
-                    );
-                  } else {
-                    setErrors(errors);
-                  }
+                  setErrors(errors);
                 }
-              } catch (error) {
-                // Optionally capture error here (Sentry or toast)
-              } finally {
-                setSubmitting(false);
-                loading.end();
               }
             }}
           >
@@ -166,7 +143,7 @@ const ForgotUsernamePage: React.FC = () => {
               handleChange,
               handleBlur,
             }) => (
-              <form className="form" onSubmit={handleSubmit} noValidate>
+              <form action="" className="form" onSubmit={handleSubmit}>
                 <fieldset className="form__fields">
                   <Textfield
                     id="forgotUsername-fname"
@@ -176,7 +153,7 @@ const ForgotUsernamePage: React.FC = () => {
                     value={values.FirstName}
                     onChange={handleChange}
                     onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
+                      fireEvent("leaveField", {
                         field: "firstName",
                         formName: "forgotUsername",
                       });
@@ -194,7 +171,7 @@ const ForgotUsernamePage: React.FC = () => {
                     value={values.LastName}
                     onChange={handleChange}
                     onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
+                      fireEvent("leaveField", {
                         field: "lastName",
                         formName: "forgotUsername",
                       });
@@ -204,6 +181,7 @@ const ForgotUsernamePage: React.FC = () => {
                       (touched.LastName && errors.LastName) || errors.Global
                     }
                   />
+
                   <Textfield
                     id="forgotUsername-phone"
                     label="Phone Number"
@@ -213,7 +191,7 @@ const ForgotUsernamePage: React.FC = () => {
                     value={values.Phone}
                     onChange={handleChange}
                     onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
+                      fireEvent("leaveField", {
                         field: "phoneNumber",
                         formName: "forgotUsername",
                       });
@@ -221,6 +199,7 @@ const ForgotUsernamePage: React.FC = () => {
                     }}
                     error={(touched.Phone && errors.Phone) || errors.Global}
                   />
+
                   <div className="form__submit">
                     <button className="btn-v2" type="submit">
                       Submit
@@ -233,8 +212,6 @@ const ForgotUsernamePage: React.FC = () => {
         </Container>
         <SimpleFooter />
       </div>
-    </>
+    </React.Fragment>
   );
 };
-
-export default ForgotUsernamePage;

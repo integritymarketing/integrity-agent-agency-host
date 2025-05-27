@@ -1,29 +1,26 @@
 import * as Sentry from "@sentry/react";
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import { Formik, FormikHelpers } from "formik";
 
-import useFlashMessage from "../../hooks/useFlashMessage";
-import useToast from "../../hooks/useToast";
-import useClientId from "hooks/auth/useClientId";
-import useLoading from "hooks/useLoading";
-import useQueryParams from "hooks/useQueryParams";
+import useClientId from "@/hooks/useClientId";
+import useQueryParams from "@/hooks/useQueryParams";
+import useValidationService from "@/hooks/useValidationService";
+import useAnalytics from "@/hooks/useAnalytics";
 
-import { Button, TextButton } from "packages/Button";
-import Heading2 from "packages/Heading2";
-
-import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
-import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
-import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
-import Textfield from "components/ui/textfield";
-
-import analyticsService from "services/analyticsService";
-import validationService from "services/validationService";
+import { ContainerUnAuthenticated } from "../UnAuthenticatedComponents/ContainerUnAuthenticated/ContainerUnAuthenticated";
+import { FooterUnAuthenticated } from "../UnAuthenticatedComponents/FooterUnAuthenticated/FooterUnAuthenticated";
+import { HeaderUnAuthenticated } from "../UnAuthenticatedComponents/HeaderUnAuthenticated/HeaderUnAuthenticated";
 
 import Styles from "./AuthPages.module.scss";
 import "./mobileStyle.scss";
+
+import { Button, TextButton } from "@/components/Temp/Button";
+import Heading2 from "@/components/Temp/Heading2";
+
+import Textfield from "@/components/Temp/textfield";
 
 const LEADCENTER_LOGIN_URL = "https://www.integrityleadcenter.com/login";
 
@@ -35,6 +32,7 @@ interface RegistrationValues {
   Phone: string;
   Email?: string | null;
   Password: string;
+  Global?: string;
 }
 
 const registerUser = async (values: RegistrationValues): Promise<Response> => {
@@ -57,34 +55,38 @@ const registerUser = async (values: RegistrationValues): Promise<Response> => {
 
 const RegistrationPage: React.FC = () => {
   const navigate = useNavigate();
-  const loading = useLoading();
+  const { fireEvent } = useAnalytics();
   const params = useQueryParams();
   const clientId = useClientId();
-  const showToast = useToast();
-  const { show: showMessage } = useFlashMessage();
+  const validation = useValidationService();
+
+  // If you had loading or toast, re-enable here.
+  // const loading = useLoading();
+  // const showToast = useToast();
+
   const [hasNPN] = useState<string | null>(params.get("npn"));
   const [hasEmail] = useState<string | null>(params.get("email"));
 
   useEffect(() => {
-    analyticsService.fireEvent("event-content-load", {
+    fireEvent("event-content-load", {
       pagePath: "/register/account-registration-form/",
     });
-  }, []);
+  }, [fireEvent]);
 
   const login = () => {
     try {
       window.location.href = `${import.meta.env.VITE_AUTH0_REDIRECT_URI}/login-redirect-sso`;
     } catch (e) {
       Sentry.captureException(e);
-      showMessage("Unable to sign in at this time.", { type: "error" });
+      // showMessage("Unable to sign in at this time.", { type: "error" });
     }
   };
 
   return (
     <>
-      <Helmet>
+      {/* <Helmet>
         <title>Integrity - Register Account</title>
-      </Helmet>
+      </Helmet> */}
       <div className="content-frame v2">
         <HeaderUnAuthenticated />
         <ContainerUnAuthenticated>
@@ -92,7 +94,7 @@ const RegistrationPage: React.FC = () => {
             className={Styles.registerTitle}
             text="Register your account"
           />
-          <Formik
+          <Formik<RegistrationValues>
             initialValues={{
               FirstName: "",
               LastName: "",
@@ -101,54 +103,54 @@ const RegistrationPage: React.FC = () => {
               Email: hasEmail || "",
               Password: "",
             }}
-            validate={(values: RegistrationValues) =>
-              validationService.validateMultiple(
+            validate={(values) =>
+              validation.validateMultiple(
                 [
                   {
                     name: "NPN",
                     validator: hasNPN
-                      ? validationService.validateUsername
+                      ? validation.validateUsername
                       : () => null,
                     args: ["NPN Number"],
                   },
                   {
                     name: "FirstName",
-                    validator: validationService.validateName,
+                    validator: validation.validateName,
                     args: ["First Name"],
                   },
                   {
                     name: "LastName",
-                    validator: validationService.validateName,
+                    validator: validation.validateName,
                     args: ["Last Name"],
                   },
                   {
                     name: "Phone",
-                    validator: validationService.composeValidator([
-                      validationService.validateRequired,
-                      validationService.validatePhone,
+                    validator: validation.composeValidator([
+                      validation.validateRequired,
+                      validation.validatePhone,
                     ]),
                   },
                   {
                     name: "Email",
-                    validator: validationService.composeValidator([
-                      validationService.validateRequired,
-                      validationService.validateEmail,
+                    validator: validation.composeValidator([
+                      validation.validateRequired,
+                      validation.validateEmail,
                     ]),
                   },
                   {
                     name: "Password",
-                    validator: validationService.validatePasswordCreation,
+                    validator: validation.validatePasswordCreation,
                   },
                 ],
                 values
               )
             }
             onSubmit={async (
-              values: RegistrationValues,
+              values,
               { setErrors, setSubmitting }: FormikHelpers<RegistrationValues>
             ) => {
               setSubmitting(true);
-              loading.begin();
+              // loading?.begin(); // Uncomment if you use loading hook
 
               const formattedValues: RegistrationValues = {
                 ...values,
@@ -159,13 +161,15 @@ const RegistrationPage: React.FC = () => {
               try {
                 const response = await registerUser(formattedValues);
                 setSubmitting(false);
-                loading.end();
+                // loading?.end(); // Uncomment if you use loading hook
 
                 if (response.ok) {
-                  analyticsService.fireEvent("event-form-submit", {
+                  fireEvent("event-form-submit", {
                     formName: "Register Account",
                   });
+
                   const data = await response.json();
+
                   // Assuming data is an array of { key: string, value: string }
                   const userObject = data.find(
                     (item: { key: string; value: string }) =>
@@ -193,28 +197,26 @@ const RegistrationPage: React.FC = () => {
                     null;
 
                   if (errMsg) {
-                    showToast({
-                      message: errMsg,
-                      type: "error",
-                    });
+                    // showToast({
+                    //   message: errMsg,
+                    //   type: "error",
+                    // });
                   }
 
-                  analyticsService.fireEvent("event-form-submit-invalid", {
+                  fireEvent("event-form-submit-invalid", {
                     formName: "Register Account",
                   });
 
-                  setErrors(
-                    validationService.formikErrorsFor(updatedErrorsArr)
-                  );
+                  setErrors(validation.formikErrorsFor(updatedErrorsArr));
                 }
               } catch (error) {
                 setSubmitting(false);
-                loading.end();
+                // loading?.end();
                 Sentry.captureException(error);
-                showToast({
-                  message: "An unexpected error occurred. Please try again.",
-                  type: "error",
-                });
+                // showToast({
+                //   message: "An unexpected error occurred. Please try again.",
+                //   type: "error",
+                // });
               }
             }}
           >
@@ -239,15 +241,20 @@ const RegistrationPage: React.FC = () => {
                     placeholder="Enter your NPN"
                     name="NPN"
                     value={values.NPN}
+                    readOnly={false}
                     onChange={handleChange}
-                    onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
+                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+                      fireEvent("leaveField", {
                         field: "npn",
                         formName: "registration",
                       });
                       return handleBlur(e);
                     }}
-                    error={(touched.NPN && errors.NPN) || errors.Global}
+                    error={
+                      (touched.NPN && errors.NPN) || errors.Global
+                        ? null
+                        : undefined
+                    }
                     auxLink={
                       <div
                         className={Styles.forgot}
@@ -271,9 +278,10 @@ const RegistrationPage: React.FC = () => {
                       placeholder="Enter your first name"
                       name="FirstName"
                       value={values.FirstName}
+                      readOnly={false}
                       onChange={handleChange}
-                      onBlur={(e) => {
-                        analyticsService.fireEvent("leaveField", {
+                      onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+                        fireEvent("leaveField", {
                           field: "firstName",
                           formName: "registration",
                         });
@@ -281,6 +289,8 @@ const RegistrationPage: React.FC = () => {
                       }}
                       error={
                         (touched.FirstName && errors.FirstName) || errors.Global
+                          ? null
+                          : undefined
                       }
                     />
                   </div>
@@ -292,9 +302,10 @@ const RegistrationPage: React.FC = () => {
                       placeholder="Enter your last name"
                       name="LastName"
                       value={values.LastName}
+                      readOnly={false}
                       onChange={handleChange}
-                      onBlur={(e) => {
-                        analyticsService.fireEvent("leaveField", {
+                      onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+                        fireEvent("leaveField", {
                           field: "lastName",
                           formName: "registration",
                         });
@@ -302,6 +313,8 @@ const RegistrationPage: React.FC = () => {
                       }}
                       error={
                         (touched.LastName && errors.LastName) || errors.Global
+                          ? null
+                          : undefined
                       }
                     />
                   </div>
@@ -314,14 +327,18 @@ const RegistrationPage: React.FC = () => {
                     value={values.Email}
                     readOnly={!!hasEmail}
                     onChange={handleChange}
-                    onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
+                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+                      fireEvent("leaveField", {
                         field: "emailAddress",
                         formName: "registration",
                       });
                       return handleBlur(e);
                     }}
-                    error={(touched.Email && errors.Email) || errors.Global}
+                    error={
+                      (touched.Email && errors.Email) || errors.Global
+                        ? null
+                        : undefined
+                    }
                   />
 
                   <Textfield
@@ -332,15 +349,20 @@ const RegistrationPage: React.FC = () => {
                     placeholder="XXX-XXX-XXXX"
                     name="Phone"
                     value={values.Phone}
+                    readOnly={false}
                     onChange={handleChange}
-                    onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
+                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+                      fireEvent("leaveField", {
                         field: "phoneNumber",
                         formName: "registration",
                       });
                       return handleBlur(e);
                     }}
-                    error={(touched.Phone && errors.Phone) || errors.Global}
+                    error={
+                      (touched.Phone && errors.Phone) || errors.Global
+                        ? null
+                        : undefined
+                    }
                   />
 
                   <Textfield
@@ -351,8 +373,8 @@ const RegistrationPage: React.FC = () => {
                     name="Password"
                     value={values.Password}
                     onChange={handleChange}
-                    onBlur={(e) => {
-                      analyticsService.fireEvent("leaveField", {
+                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+                      fireEvent("leaveField", {
                         field: "password",
                         formName: "registration",
                       });
@@ -360,6 +382,8 @@ const RegistrationPage: React.FC = () => {
                     }}
                     error={
                       (touched.Password && errors.Password) || errors.Global
+                        ? null
+                        : undefined
                     }
                     success={
                       touched.Password && !errors.Password && !errors.Global
@@ -381,17 +405,18 @@ const RegistrationPage: React.FC = () => {
                     }
                     focusBannerVisible={Boolean(errors.Password)}
                   />
+
                   <div className="centered-flex-col">
                     <Button
-                      className={analyticsService.clickClass(
-                        "registration-submit"
-                      )}
+                      // className={analyticsService.clickClass("registration-submit")}
                       type="submit"
                       size="large"
+                      onClick={(_: React.MouseEvent<HTMLButtonElement>) => {}}
                     >
                       <Box mx="3rem">Submit</Box>
                     </Button>
                   </div>
+
                   {clientId !== "AgentMobile" && (
                     <div className="centered-flex-col">
                       <p>Already have an account?</p>
@@ -399,13 +424,22 @@ const RegistrationPage: React.FC = () => {
                         <TextButton
                           href={LEADCENTER_LOGIN_URL}
                           className="text-sm link text-bold"
+                          startIcon={null}
+                          endIcon={null}
+                          onClick={(
+                            _: React.MouseEvent<HTMLAnchorElement>
+                          ) => {}}
                         >
                           Login
                         </TextButton>
                       ) : (
                         <TextButton
-                          onClick={login}
+                          onClick={(_: React.MouseEvent<HTMLButtonElement>) =>
+                            login()
+                          }
                           className="text-sm link text-bold"
+                          startIcon={null}
+                          endIcon={null}
                         >
                           Login
                         </TextButton>

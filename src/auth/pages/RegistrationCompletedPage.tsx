@@ -1,5 +1,5 @@
 import React from "react";
-import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
+import BaseConfirmationPage from "./BaseConfirmationPage";
 
 const RegistrationCompletedPage: React.FC = () => {
   return (

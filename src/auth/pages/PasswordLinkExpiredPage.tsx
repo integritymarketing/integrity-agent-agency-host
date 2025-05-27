@@ -1,8 +1,8 @@
 import React from "react";
-import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
+import BaseConfirmationPage from "./BaseConfirmationPage";
 import { useNavigate } from "react-router-dom";
-import useQueryParams from "hooks/useQueryParams";
-import usePortalUrl from "hooks/usePortalUrl";
+import useQueryParams from "@/hooks/useQueryParams";
+import usePortalUrl from "@/hooks/usePortalUrl";
 
 const requestPasswordReset = async (npn: string | null): Promise<Response> => {
   return fetch(`${import.meta.env.VITE_AUTH_AUTHORITY_URL}/forgotpassword`, {

@@ -1,10 +1,12 @@
 import React from "react";
 import { Formik, FormikHelpers } from "formik";
-import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
-import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
-import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
-import Textfield from "components/ui/textfield";
-import validationService from "services/validationService";
+import { ContainerUnAuthenticated } from "../UnAuthenticatedComponents/ContainerUnAuthenticated/ContainerUnAuthenticated";
+import { FooterUnAuthenticated } from "../UnAuthenticatedComponents/FooterUnAuthenticated/FooterUnAuthenticated";
+import { HeaderUnAuthenticated } from "../UnAuthenticatedComponents/HeaderUnAuthenticated/HeaderUnAuthenticated";
+
+import Textfield from "@/components/Temp/textfield";
+
+import useValidationService from "@/hooks/useValidationService";
 
 interface NewEmailValues {
   email: string;
@@ -12,6 +14,7 @@ interface NewEmailValues {
 }
 
 const NewEmailPage: React.FC = () => {
+  const validationService = useValidationService();
   return (
     <div className="content-frame v2">
       <HeaderUnAuthenticated />
@@ -77,7 +80,8 @@ const NewEmailPage: React.FC = () => {
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={(touched.email && errors.email) || errors.Global}
+                  error={touched.email && errors.email ? null : undefined}
+                  readOnly={false}
                 />
                 <Textfield
                   id="new-email-repeat"
@@ -89,8 +93,9 @@ const NewEmailPage: React.FC = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   error={
-                    (touched.emailRepeat && errors.emailRepeat) || errors.Global
+                    touched.emailRepeat && errors.emailRepeat ? null : undefined
                   }
+                  readOnly={false}
                 />
                 <div className="form__submit">
                   <button className="btn-v2" type="submit">
