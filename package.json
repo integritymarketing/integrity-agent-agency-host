@@ -26,6 +26,7 @@
     "@microsoft/signalr": "^8.0.0",
     "@mui/base": "^5.0.0-beta.40",
     "@mui/material": "^6.0.2",
+    "@mui/icons-material": "^5.15.19",
     "@sentry/browser": "^9.19.0",
     "@sentry/react": "^9.19.0",
     "@sentry/tracing": "^7.120.3",
