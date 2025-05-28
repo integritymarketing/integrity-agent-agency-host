@@ -144,7 +144,12 @@ Then, in your `.npmrc`, use:
 
 ## 🌐 Hosting
 
-This site has been hosted and deployed to **Netlify**.
+This site is hosted and deployed to **Netlify** at the following URLs:
+
+- [Development](https://ia-dev.integritymarketinggroup.com)
+- [QA](https://ia-qa.integritymarketinggroup.com)
+- [Staging](https://ia-stage.integritymarketinggroup.com)
+- [UAT](https://ia-uat.integritymarketinggroup.com)
 
 ## 📄 License
 
