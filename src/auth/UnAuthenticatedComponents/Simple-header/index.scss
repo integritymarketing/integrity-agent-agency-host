@@ -1,0 +1,38 @@
+@use "scss/globalDefines" as defines_global;
+
+.simple-header {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 1rem;
+  align-items: center;
+  justify-content: center;
+  background-color: #051d43;
+
+  @include defines_global.tabletAndAbove {
+    min-height: 6rem;
+  }
+
+  &__title {
+    a {
+      display: flex;
+      padding: 1rem; // increase hit area
+      margin-left: -1rem;
+      max-width: calc(293px + 2rem);
+    }
+  }
+
+  @media (width >= 480px) {
+    padding: 0.5rem 2rem;
+    margin-top: 0;
+  }
+
+  @media (width >= 768px) {
+    justify-content: flex-start;
+    padding: 1rem 2.5rem;
+  }
+}
+
+.mobile-med-icon {
+  padding: 10px 0;
+}

@@ -1,6 +1,6 @@
 import React from "react";
-import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
-import useQueryParams from "hooks/useQueryParams";
+import BaseConfirmationPage from "./BaseConfirmationPage";
+import useQueryParams from "@/hooks/useQueryParams";
 
 const FinalErrorPage: React.FC = () => {
   const params = useQueryParams();

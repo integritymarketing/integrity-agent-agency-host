@@ -1,0 +1,78 @@
+@use "scss/globalDefines" as defines_global;
+
+.forgot {
+  display: flex;
+  justify-content: right;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.resetTitle,
+.registerTitle {
+  margin-bottom: 1rem;
+  letter-spacing: 0.32px;
+
+  @include defines_global.small {
+    font-size: defines_global.$font-size-32 !important;
+  }
+}
+
+.enterYourNPN {
+  color: #434a51;
+  margin-bottom: 3rem;
+  letter-spacing: 0.16px;
+
+  @include defines_global.small {
+    font-size: defines_global.$font-size-16 !important;
+  }
+}
+
+.loginText {
+  @include defines_global.small {
+    font-size: defines_global.$font-size-32 !important;
+  }
+}
+
+.versionText {
+  @include defines_global.small {
+    font-size: defines_global.$font-size-32 !important;
+  }
+
+  text-align: center;
+}
+
+.downloadText {
+  color: #051d43;
+  font-size: 16px;
+  padding: 10px 30px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+
+  .submitButton {
+    width: 100%;
+    background-color: #0052ce;
+    color: #fff;
+    font-size: 16px;
+    padding: 8px 25px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+
+    &[disabled],
+    &--disabled {
+      background: var(--v2-disabled-button);
+      color: var(--v2-disabled-button-text);
+      cursor: not-allowed;
+    }
+  }
+}

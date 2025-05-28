@@ -1,31 +1,33 @@
 import React, { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
 import { Formik, FormikHelpers } from "formik";
 
-import useClientId from "hooks/auth/useClientId";
-import useLoading from "hooks/useLoading";
-import useQueryParams from "hooks/useQueryParams";
-import useFetch from "hooks/useFetch";
+import useClientId from "@/hooks/useClientId";
+// import useLoading from "@/hooks/useLoading";
+import useQueryParams from "@/hooks/useQueryParams";
+import useFetch from "@/hooks/useFetch";
 
-import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
-import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
-import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
-import Textfield from "components/ui/textfield";
+import { ContainerUnAuthenticated } from "../UnAuthenticatedComponents/ContainerUnAuthenticated/ContainerUnAuthenticated";
+import { FooterUnAuthenticated } from "../UnAuthenticatedComponents/FooterUnAuthenticated/FooterUnAuthenticated";
+import { HeaderUnAuthenticated } from "../UnAuthenticatedComponents/HeaderUnAuthenticated/HeaderUnAuthenticated";
 
-import validationService from "services/validationService";
+import Textfield from "@/components/Temp/textfield";
+
+import useValidationService from "@/hooks/useValidationService";
 
 interface PasswordResetValues {
   Password: string;
   ConfirmPassword: string;
+  Global: string;
 }
 
 const PasswordResetPage: React.FC = () => {
   const navigate = useNavigate();
-  const loading = useLoading();
+  // const loading = useLoading();
+  const validationService = useValidationService();
   const params = useQueryParams();
   const clientId = useClientId();
 
@@ -72,43 +74,43 @@ const PasswordResetPage: React.FC = () => {
   }, []);
 
   const handleSubmit = async (values: PasswordResetValues) => {
-    loading.begin();
+    // loading.begin();
     try {
       const response = await resetpassword({
-        ...values,
-        Username: params.get("npn"),
-        Token: params.get("token"),
-        Email: params.get("email"),
-        ClientId: clientId,
+        body: {
+          ...values,
+          Username: params.get("npn"),
+          Token: params.get("token"),
+          Email: params.get("email"),
+          ClientId: clientId,
+        },
       });
 
-      loading.end();
+      // loading.end();
 
-      if (response.ok) {
+      const res = response as Response;
+      if (res.ok) {
         navigate("/password-updated");
       } else {
-        const errorsArr = await response.json();
+        const errorsArr = await res.json();
         const errors = validationService.formikErrorsFor(errorsArr);
         throw new Error(errors.Global || "Failed to reset password");
       }
     } catch (error: any) {
-      loading.end();
+      // loading.end();
       throw error;
     }
   };
 
   return (
     <>
-      <Helmet>
-        <title>Integrity - Reset Password</title>
-      </Helmet>
       <div className="content-frame v2">
         <HeaderUnAuthenticated />
         <ContainerUnAuthenticated>
           <h1 className="hdg hdg--2 mb-3">Set a new password</h1>
           <Box sx={{ width: 300 }}>
             <Formik
-              initialValues={{ Password: "", ConfirmPassword: "" }}
+              initialValues={{ Password: "", ConfirmPassword: "", Global: "" }}
               validate={(values: PasswordResetValues) =>
                 validationService.validateMultiple(
                   [
@@ -158,25 +160,29 @@ const PasswordResetPage: React.FC = () => {
                       value={values.Password}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      error={errors.Password || errors.Global}
+                      error={
+                        errors.Password || errors.Global ? null : undefined
+                      }
                       success={
                         touched.Password && !errors.Password && !errors.Global
                       }
                       focusBanner={
-                        <div className="form-tip">
-                          <p>Your password must: </p>
-                          <ul className="list-basic">
-                            <li>Be at least 8 characters long</li>
-                            <li>
-                              Include at least one uppercase and lowercase
-                              letter
-                            </li>
-                            <li>Include at least one number</li>
-                            <li>
-                              Include at least one non-alphanumeric character
-                            </li>
-                          </ul>
-                        </div>
+                        errors.Password ? (
+                          <div className="form-tip">
+                            <p>Your password must: </p>
+                            <ul className="list-basic">
+                              <li>Be at least 8 characters long</li>
+                              <li>
+                                Include at least one uppercase and lowercase
+                                letter
+                              </li>
+                              <li>Include at least one number</li>
+                              <li>
+                                Include at least one non-alphanumeric character
+                              </li>
+                            </ul>
+                          </div>
+                        ) : null
                       }
                       focusBannerVisible={Boolean(errors.Password)}
                     />
@@ -187,12 +193,15 @@ const PasswordResetPage: React.FC = () => {
                       placeholder="Re-enter your new password"
                       name="ConfirmPassword"
                       value={values.ConfirmPassword}
+                      readOnly={false}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       error={
                         errors.ConfirmPassword ||
                         errors.Global ||
                         errors.Password
+                          ? null
+                          : undefined
                       }
                       success={
                         touched.ConfirmPassword &&

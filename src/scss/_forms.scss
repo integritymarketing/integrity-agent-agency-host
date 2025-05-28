@@ -1,0 +1,246 @@
+@use "sass:math";
+
+.form {
+  &__fields {
+    border: 0;
+    margin: 0;
+    padding: 0;
+
+    > * + * {
+      margin-top: 1rem;
+    }
+
+    > * + .form__submit {
+      margin-top: 2.5rem;
+
+      @media screen and (width <= 480px) {
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    &--constrained {
+      max-width: 22.5rem;
+    }
+  }
+}
+
+.label {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.form-input {
+  &__header {
+    display: flex;
+    margin-bottom: 0.5rem;
+
+    > .label {
+      margin-right: auto;
+    }
+  }
+
+  &__input {
+    border: 2px solid var(--form-border-default);
+    background: var(--main-bg-color);
+    border-radius: 0.25rem;
+    display: flex;
+    box-sizing: border-box;
+    position: relative;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+
+    &:focus-within {
+      border-color: var(--form-border-active);
+      z-index: 1;
+    }
+
+    input,
+    select,
+    textarea {
+      border: 0;
+      background: none;
+      font-size: 1rem;
+      min-width: 0;
+      flex: 1 0 0;
+      padding: 0.5rem;
+      height: 38px;
+      line-height: 38px;
+
+      &:focus {
+        outline: none; // focus style defined on parent
+      }
+    }
+
+    input:read-only {
+      background-color: transparent;
+      color: var(--muted-text-color);
+    }
+
+    textarea {
+      height: auto;
+      line-height: math.div(24, 16);
+      min-height: 10rem;
+      max-height: 25rem;
+      resize: vertical;
+    }
+  }
+
+  &__date-wrap {
+    flex: 1 0 auto;
+
+    > input {
+      width: 100%;
+    }
+  }
+
+  &__input-actions {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.375rem;
+
+    > * + * {
+      margin-left: 0.5rem;
+    }
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__error {
+    visibility: hidden;
+    font-size: 0.75rem;
+    line-height: 2;
+    min-height: 1.5rem;
+    color: var(--error-state-color);
+  }
+
+  &--error {
+    > .form-input__input {
+      border-color: var(--error-state-color);
+    }
+
+    > .form-input__error {
+      visibility: visible;
+    }
+  }
+
+  &--success {
+    > .form-input__input {
+      border-color: var(--success-state-color);
+    }
+  }
+
+  &__focus-banner {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  &__input--show-banner > input:focus + &__focus-banner {
+    opacity: 1;
+  }
+
+  &--readonly {
+    > .form-input__input {
+      border-color: var(--muted-text-color);
+      background-color: var(--disabled-contrast-color);
+    }
+  }
+
+  &__icon {
+    color: var(--muted-text-color);
+  }
+
+  &__icon--main {
+    display: inline-flex;
+    width: 2.25rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__icon--main + input {
+    padding-left: 0;
+  }
+}
+
+.form-input--invert {
+  .form-input__input {
+    background: var(--textfield-invert-bg-color);
+    color: var(--invert-text-color);
+    border-color: rgb(255 255 255 / 0%);
+
+    &:focus-within {
+      border-color: var(--invert-text-color);
+      background-color: var(--textfield-invert-bg-color-active);
+    }
+
+    & > input::placeholder {
+      color: #a6a3a1;
+    }
+
+    &:focus-within > input::placeholder {
+      color: #fff;
+    }
+  }
+
+  .form-input__icon {
+    color: var(--invert-text-color);
+  }
+}
+
+.form-input--select {
+  .form-input__input > select {
+    appearance: none;
+    text-indent: 1px;
+    text-overflow: "";
+    padding-top: 0;
+    padding-right: 3rem;
+
+    &::-ms-expand {
+      display: none;
+    }
+  }
+
+  .form-input__input-actions {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.form-tip {
+  background-color: var(--invert-bg-color);
+  color: var(--invert-text-color);
+  padding: 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 2;
+}
+
+.list-basic {
+  > li::before {
+    content: "\2022";
+    margin-right: 0.25em;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  transition-delay: 99999s; // hack to disable MOST of chrome's autofill styling
+}

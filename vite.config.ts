@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": "/src",
+      scss: "/src/scss",
     },
   },
   plugins: [
@@ -17,13 +18,24 @@ export default defineConfig({
       filename: "remoteEntry.js",
       exposes: {
         "./userState": "./src/store/userState.tsx",
+        "./AppGlobalContext": "./src/contexts",
       },
       remotes: {
-        IntegrityAgentDashboard: "http://localhost:5002/assets/integrityAgentDashboard.js",
+        IntegrityAgentDashboard:
+          "http://localhost:5002/assets/integrityAgentDashboard.js",
+        IntegrityAgent: "http://localhost:5003/assets/integrityAgent.js",
       },
       shared: ['react', 'react-dom', '@auth0/auth0-react', 'jotai'],
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // You can add supported options here, e.g.:
+        // additionalData: `@import "@/scss/variables.scss";`,
+      },
+    },
+  },
   build: {
     modulePreload: false,
     target: "esnext",
