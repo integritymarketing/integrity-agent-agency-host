@@ -2,7 +2,6 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 const WelcomePage = lazy(() => import("@/pages/Welcome"));
-const Dashboard = lazy(() => import("IntegrityAgentDashboard/AgentDashboard"));
 const Logout = lazy(() => import("@/auth/pages/Logout"));
 const Register = lazy(() => import("@/auth/pages/RegistrationPage"));
 const ForgotPasswordPage = lazy(
@@ -40,6 +39,7 @@ const PasswordUpdatePage = lazy(
 const PasswordResetPage = lazy(() => import("@/auth/pages/PasswordResetPage"));
 const NewEmailPage = lazy(() => import("@/auth/pages/NewEmailPage"));
 const TestPage = lazy(() => import("@/pages/TestPage"));
+const MainLayout = lazy(() => import("@/layouts/MainLayout.tsx"));
 
 const AppRoutes: React.FC = () => (
   <Suspense fallback={<div>Loading...</div>}>
@@ -83,11 +83,12 @@ const AppRoutes: React.FC = () => (
       <Route path="/password-updated" element={<PasswordUpdatePage />} />
       <Route path="/password-reset" element={<PasswordResetPage />} />
       <Route path="/new-email" element={<NewEmailPage />} />
-
-      <Route path="/dashboard" element={<TestPage />} />
-
-      {/* Redirect unmatched paths to Register */}
       <Route path="*" element={<Navigate to="/" replace />} />
+
+      {/* Add more routes here that need MainLayout */}
+      <Route element={<MainLayout />}>
+        <Route path="/dashboard" element={<TestPage />} />
+      </Route>
     </Routes>
   </Suspense>
 );
