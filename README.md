@@ -146,10 +146,10 @@ Then, in your `.npmrc`, use:
 
 This site is hosted and deployed to **Netlify** at the following URLs:
 
-- [Development](https://ia-dev.integritymarketinggroup.com)
-- [QA](https://ia-qa.integritymarketinggroup.com)
-- [Staging](https://ia-stage.integritymarketinggroup.com)
-- [UAT](https://ia-uat.integritymarketinggroup.com)
+- [Development](https://ia-dev.integritymarketinggroup.com){:target="\_blank"}
+- [QA](https://ia-qa.integritymarketinggroup.com){:target="\_blank"}
+- [Staging](https://ia-stage.integritymarketinggroup.com){:target="\_blank"}
+- [UAT](https://ia-uat.integritymarketinggroup.com){:target="\_blank"}
 
 ## 📄 License
 
