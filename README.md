@@ -49,13 +49,16 @@ A microfrontend-compatible shared context module built for the Integrity platfor
    ```bash
    git clone https://github.com/integritymarketing/integrity-agent-agency-host
    ```
-2. Install dependencies:
+2. Set up your GitHub token for private package installation:  
+   See [🔑 Setting Up `.npmrc` and GitHub Token](#-setting-up-npmrc-and-github-token) below for instructions.
+
+3. Install dependencies:
 
    ```bash
    yarn install
    ```
 
-3. Copy the environment variable template and rename it:
+4. Copy the environment variable template and rename it:
 
    ```bash
       cp .env.sample .env
@@ -67,11 +70,11 @@ A microfrontend-compatible shared context module built for the Integrity platfor
    Update the values in .env with your real secrets and configuration for local development.
    Never commit your .env file to version control.
 
-4. Start the development server:
+5. Start the development server:
    ```bash
    yarn dev
    ```
-5. Build the project for production:
+6. Build the project for production:
    ```bash
    yarn build
    ```
