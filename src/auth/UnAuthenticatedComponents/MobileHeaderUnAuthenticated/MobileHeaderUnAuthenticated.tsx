@@ -1,5 +1,5 @@
 import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid";
 import useClientId from "@/hooks/useClientId";
 
 import styles from "./MobileHeaderUnAuthenticated.module.scss";
