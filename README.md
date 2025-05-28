@@ -50,14 +50,28 @@ A microfrontend-compatible shared context module built for the Integrity platfor
    git clone https://github.com/integritymarketing/integrity-agent-agency-host
    ```
 2. Install dependencies:
+
    ```bash
    yarn install
    ```
-3. Start the development server:
+
+3. Copy the environment variable template and rename it:
+
+   ```bash
+      cp .env.sample .env
+   ```
+
+   Why?
+   .env.sample is a template file containing all the required environment variable names and example values.
+   You must rename it to .env so that Vite and other tools can load your actual environment variables at runtime.
+   Update the values in .env with your real secrets and configuration for local development.
+   Never commit your .env file to version control.
+
+4. Start the development server:
    ```bash
    yarn dev
    ```
-4. Build the project for production:
+5. Build the project for production:
    ```bash
    yarn build
    ```

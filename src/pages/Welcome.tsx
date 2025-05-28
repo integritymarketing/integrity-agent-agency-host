@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -7,29 +6,24 @@ import {
   Box,
   Container,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
-// Sample logo URL - replace with your logo if you want
 const logoUrl =
   "https://ae-identity-dev.integritymarketinggroup.com/assets/Logo-C3AJYszO.svg";
-
 const imageUrl =
-  "https://ae-dev.integritymarketinggroup.com/assets/image-CVWFCRsT.jpg"; // Path to your uploaded image
+  "https://ae-dev.integritymarketinggroup.com/assets/image-CVWFCRsT.jpg";
 
 const WelcomePage = () => {
   const { loginWithRedirect } = useAuth0();
-
   const handleLoginClick = async () => {
     try {
       await loginWithRedirect({
         authorizationParams: {
-          redirect_uri: `${window.location.origin}/dashboard`, // Redirect to dashboard after login
+          redirect_uri: `${window.location.origin}/dashboard`,
         },
       });
     } catch (e) {
       console.error("Login error:", e);
-      // Optionally show error message to user here
     }
   };
 
@@ -56,7 +50,7 @@ const WelcomePage = () => {
       <Container
         sx={{
           display: "flex",
-          minHeight: "calc(100vh - 64px)", // Full viewport height minus appbar
+          minHeight: "calc(100vh - 64px)", 
           alignItems: "center",
           justifyContent: "center",
           paddingY: 4,
@@ -115,10 +109,6 @@ const WelcomePage = () => {
       </Container>
     </>
   );
-};
-
-WelcomePage.propTypes = {
-  // No props needed for this component currently
 };
 
 export default WelcomePage;
