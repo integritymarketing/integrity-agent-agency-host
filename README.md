@@ -20,11 +20,14 @@ A microfrontend-compatible shared context module built for the Integrity platfor
 
 ## 📦 Tech Stack
 
-- **React (experimental release)**
+- **React 18**
 - **Vite**
-- **Module Federation**
+- **Module Federation** (`@originjs/vite-plugin-federation`)
 - **TypeScript**
-- **MUI 5**
+- **MUI 5** (Material-UI)
+- **FontAwesome** (for icons)
+- **Auth0** (for authentication)
+- **Sentry** (for error monitoring)
 - **Prettier + ESLint**
 - **Yarn**
 
