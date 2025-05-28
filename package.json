@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite --strictPort --port 3000",
-    "build": "vite build",
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=4096 vite build",
     "preview": "vite preview --strictPort --port 3000",
     "lint": "eslint .",
     "postbuild": "node generate-redirects.mjs",
@@ -23,6 +23,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
     "@fortawesome/free-solid-svg-icons": "^6.7.1",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@integritymarketing/clients-ui-kit": "^2.1.7",
     "@microsoft/signalr": "^8.0.0",
     "@mui/icons-material": "^5.15.19",
     "@mui/material": "^5.0.0",

@@ -21,6 +21,7 @@ export interface AgentAvailability {
   leadPreference: any;
   activeCampaign: any;
   agentProductSpecialties: ProductSpecialty[];
+  agentAvailabilitySessionId?: number;
   [key: string]: any;
 }
 
@@ -29,4 +30,5 @@ export interface AgentAvailabilityContextType {
   loading: boolean;
   error: string | null;
   refetch: () => Promise<void>;
+  toggleAvailability: (isAvailable: boolean) => Promise<void>;
 }

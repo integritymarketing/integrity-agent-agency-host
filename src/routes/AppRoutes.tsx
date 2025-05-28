@@ -2,8 +2,12 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 const WelcomePage = lazy(() => import("@/pages/Welcome"));
-// const TestPage = lazy(() => import("@/pages/TestPage"));
-const Dashboard = lazy(() => import("IntegrityAgentDashboard/AgentDashboard"));
+const Dashboard = lazy(() => import("IntegrityAgentDashboard/AgentDashboard").catch(() => {
+  // Return a fallback component if the microfrontend fails to load
+  return Promise.resolve({
+    default: () => <div>Dashboard is currently unavailable. Please try again later.</div>
+  });
+}));
 const Logout = lazy(() => import("@/auth/pages/Logout"));
 const Register = lazy(() => import("@/auth/pages/RegistrationPage"));
 const ForgotPasswordPage = lazy(
@@ -41,8 +45,21 @@ const PasswordUpdatePage = lazy(
 const PasswordResetPage = lazy(() => import("@/auth/pages/PasswordResetPage"));
 const NewEmailPage = lazy(() => import("@/auth/pages/NewEmailPage"));
 
+const LoadingFallback = () => (
+  <div style={{ 
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    height: '100vh',
+    fontSize: '1.2rem',
+    color: '#666'
+  }}>
+    Loading...
+  </div>
+);
+
 const AppRoutes: React.FC = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense fallback={<LoadingFallback />}>
     <Routes>
       {/* Unauthenticated Routes */}
       <Route path="/" element={<Register />} />
@@ -84,7 +101,15 @@ const AppRoutes: React.FC = () => (
       <Route path="/password-reset" element={<PasswordResetPage />} />
       <Route path="/new-email" element={<NewEmailPage />} />
 
-      <Route path="/dashboard" element={<Dashboard />} />
+      {/* Protected Routes */}
+      <Route 
+        path="/dashboard" 
+        element={
+          <Suspense fallback={<LoadingFallback />}>
+            <Dashboard />
+          </Suspense>
+        } 
+      />
 
       {/* Redirect unmatched paths to Register */}
       <Route path="*" element={<Navigate to="/" replace />} />

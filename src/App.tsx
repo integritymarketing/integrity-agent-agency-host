@@ -36,26 +36,27 @@ const ConditionalAgentProviderWrapper: React.FC<{
 }> = ({ children }) => {
   const location = useLocation();
 
-  if (isMicrofrontendRoute(location.pathname)) {
-    return <AgentGlobalProvider>{children}</AgentGlobalProvider>;
-  }
-
-  return <>{children}</>;
+  // Always wrap Layout with AgentGlobalProvider
+  return (
+    <AgentGlobalProvider>
+      {children}
+    </AgentGlobalProvider>
+  );
 };
 
 function App() {
   return (
-    <Layout>
-      <ErrorBoundary>
-        <BrowserRouter>
-          <AuthProvider>
-            <ConditionalAgentProviderWrapper>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <AuthProvider>
+          <ConditionalAgentProviderWrapper>
+            <Layout>
               <AppRoutes />
-            </ConditionalAgentProviderWrapper>
-          </AuthProvider>
-        </BrowserRouter>
-      </ErrorBoundary>
-    </Layout>
+            </Layout>
+          </ConditionalAgentProviderWrapper>
+        </AuthProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 

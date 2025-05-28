@@ -1,7 +1,28 @@
+body {
+  margin: 0;
+}
+
 #root {
   margin: 0 auto;
   text-align: center;
-  width: 100%;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  margin-top: 64px; /* Height of the header */
+}
+
+.content-container {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
 }
 
 .read-the-docs {
