@@ -11,14 +11,13 @@ function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
-        {/* Auth routes wrapped in AuthProvider */}
         <AuthProvider>
           <AuthRoutes />
-        </AuthProvider>
         {/* App (microfrontend) routes wrapped in AgentGlobalProvider */}
         <AgentGlobalProvider>
           <AppRoutes />
         </AgentGlobalProvider>
+        </AuthProvider>
       </BrowserRouter>
     </ErrorBoundary>
   );
