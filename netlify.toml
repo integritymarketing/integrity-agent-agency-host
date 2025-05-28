@@ -1,7 +1,7 @@
 # Global settings applied to the whole site.
 [build]
   # Directory to publish (build output directory).
-  publish = "build/"
+  publish = "dist/"
   
   # Build command.
   command = "npm run build"

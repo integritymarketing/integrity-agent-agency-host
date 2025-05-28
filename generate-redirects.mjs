@@ -2,17 +2,17 @@ import fs from "fs";
 import path from "path";
 
 // Resolve the build directory and redirects file path
-const buildDir = path.resolve("build");
+const buildDir = path.resolve("dist");
 const redirectsFile = path.join(buildDir, "_redirects");
 
 // Ensure the build directory exists
 if (!fs.existsSync(buildDir)) {
-  fs.mkdirSync(buildDir, { recursive: true }); // Create the build folder if not exists
+  fs.mkdirSync(buildDir, { recursive: true }); // Create the dist folder if not exists
 }
 
 // Define your redirects content here
 const redirectsContent = `
-/old-route /new-route 301
+/* /index.html 200
 `;
 
 // Write the _redirects file
