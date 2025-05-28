@@ -45,7 +45,7 @@ const AppRoutes: React.FC = () => (
   <Suspense fallback={<div>Loading...</div>}>
     <Routes>
       {/* Unauthenticated Routes */}
-      <Route path="/" element={<Register />} />
+      <Route path="/" element={<WelcomePage />} />
       <Route path="/welcome" element={<WelcomePage />} />
       <Route path="/test" element={<TestPage />} />
 
