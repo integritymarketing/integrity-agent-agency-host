@@ -49,7 +49,9 @@ function App() {
         <BrowserRouter>
           <AuthProvider>
             <ConditionalAgentProviderWrapper>
-              <AppRoutes />
+                <AgentGlobalProvider>
+                    <AppRoutes />
+                </AgentGlobalProvider>
             </ConditionalAgentProviderWrapper>
           </AuthProvider>
         </BrowserRouter>
@@ -57,5 +59,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;

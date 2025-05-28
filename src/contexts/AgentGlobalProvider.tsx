@@ -3,6 +3,7 @@ import { AgentAvailabilityProvider } from "./agentAvailabilityProvider/AgentAvai
 import { AgentDetailsProvider } from "./agentDetailsProvider/AgentDetailsContext";
 import { AgentAvailabilitySignalRProvider } from "./agentAvailabilitySignalRProvider/AgentAvailabilitySignalRContext";
 import { LeadStatusProvider } from "./leadStatusProvider/LeadStatusContext";
+import { AgentProfileProvider } from "./agentProfileProvider/AgentProfileContext";
 
 interface Props {
   children: React.ReactNode;
@@ -13,7 +14,11 @@ const AgentGlobalProvider: React.FC<Props> = ({ children }) => {
     <LeadStatusProvider>
       <AgentDetailsProvider>
         <AgentAvailabilitySignalRProvider>
-          <AgentAvailabilityProvider>{children}</AgentAvailabilityProvider>
+          <AgentProfileProvider>
+            <AgentAvailabilityProvider>
+              {children}
+            </AgentAvailabilityProvider>
+          </AgentProfileProvider>
         </AgentAvailabilitySignalRProvider>
       </AgentDetailsProvider>
     </LeadStatusProvider>

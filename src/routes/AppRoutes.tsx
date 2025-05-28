@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 const WelcomePage = lazy(() => import("@/pages/Welcome"));
-const TestPage = lazy(() => import("@/pages/TestPage"));
+const TestPage = lazy(() => import("@/pages/Test.tsx"));
 const Dashboard = lazy(() => import("IntegrityAgentDashboard/AgentDashboard"));
 const Logout = lazy(() => import("@/auth/pages/Logout"));
 const Register = lazy(() => import("@/auth/pages/RegistrationPage"));
@@ -47,6 +47,11 @@ const AppRoutes: React.FC = () => (
       {/* Unauthenticated Routes */}
       <Route path="/" element={<Register />} />
       <Route path="/welcome" element={<WelcomePage />} />
+      <Route path="/test" element={<TestPage />} />
+
+      {/* Private Routes */}
+
+      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />

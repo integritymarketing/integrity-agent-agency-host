@@ -1,52 +1,84 @@
-import React, { createContext, useEffect } from "react";
-import { useFetch, useAgentProfile } from "@/hooks";
-import {
-  AgentAvailability,
-  AgentAvailabilityContextType,
-} from "./AgentAvailabilityTypes";
-import { useAgentAvailabilitySignalR } from "@/contexts";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import useFetch from "@/hooks/useFetch";
+import { AgentAvailability, AgentAvailabilityContextType } from "./AgentAvailabilityTypes";
+import { useAgentProfile } from "@/contexts";
 
-export const AgentAvailabilityContext = createContext<
-  AgentAvailabilityContextType | undefined
->(undefined);
+export const AgentAvailabilityContext = createContext<AgentAvailabilityContextType | undefined>(undefined);
 
-export const AgentAvailabilityProvider: React.FC<{
-  children: React.ReactNode;
-}> = ({ children }) => {
-  const { Get, data, loading, error } = useFetch<AgentAvailability>(
-    "/ae-agent-service/api/v1.0/AgentMobile/Available"
-  );
+export const useAgentAvailability = () => {
+  const context = useContext(AgentAvailabilityContext);
+  if (!context) {
+    throw new Error("useAgentAvailability must be used within an AgentAvailabilityProvider");
+  }
+  return context;
+};
 
-  const { agentId } = useAgentProfile();
-  const { setIsAvailable } = useAgentAvailabilitySignalR();
+export const AgentAvailabilityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [data, setData] = useState<AgentAvailability | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { data: profile } = useAgentProfile();
 
-  const refetch = async () => {
-    if (!agentId) return;
+  const { Get } = useFetch<AgentAvailability>("/ae-agent-service/api/v1.0/AgentMobile/Available");
+  const { Post } = useFetch<AgentAvailability>("/ae-agent-service/api/v1.0/AgentMobile/Availability");
+
+  const fetchAvailability = async () => {
+    if (!profile?.agentID) return;
+    
     try {
-      const result = await Get({ id: agentId }); // this updates `data` internally
-      console.log("Agent availability result", result);
-      if (result && "isAvailable" in result) {
-        setIsAvailable((result as AgentAvailability).isAvailable);
+      setLoading(true);
+      const response = await Get({ id: profile.agentID });
+      if (response) {
+        setData(response as AgentAvailability);
       }
-    } catch {
-      console.log("Error fetching agent availability", error);
-      // error is already handled in useFetch
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to fetch availability");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleAvailability = async (isAvailable: boolean) => {
+    if (!profile?.agentID) return;
+
+    try {
+      setLoading(true);
+      const response = await Post({ 
+        body: { 
+          isAvailable,
+          agentID: profile.agentID,
+          agentAvailabilitySessionId: data?.agentAvailabilitySessionId
+        }
+      });
+      if (response) {
+        // After successful update, fetch the latest availability
+        await fetchAvailability();
+      }
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to update availability");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    refetch();
-  }, [agentId]);
+    if (profile?.agentID) {
+      fetchAvailability();
+    }
+  }, [profile?.agentID]);
+
+  const value = {
+    data,
+    loading,
+    error,
+    refetch: fetchAvailability,
+    toggleAvailability,
+  };
 
   return (
-    <AgentAvailabilityContext.Provider
-      value={{
-        data,
-        loading,
-        error,
-        refetch,
-      }}
-    >
+    <AgentAvailabilityContext.Provider value={value}>
       {children}
     </AgentAvailabilityContext.Provider>
   );
