@@ -10,7 +10,11 @@ A microfrontend-compatible shared context module built for the Integrity platfor
 - ✅ Vite + Module Federation (`@originjs/vite-plugin-federation`)
 - ✅ TypeScript + ESLint + Prettier integration
 - ✅ Post-build redirect support for Netlify via `_redirects` file
-- ✅ React 18 (experimental) compatibility
+- ✅ React 18
+- ✅ Uses **MUI 6** for UI components
+- ✅ Uses icons from **FontAwesome**
+- ✅ Uses **Auth0** for authentication
+- ✅ Logs errors in **Sentry** for monitoring and debugging
 
 ---
 
