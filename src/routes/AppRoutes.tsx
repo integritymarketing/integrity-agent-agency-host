@@ -57,12 +57,14 @@ const LoadingFallback = () => (
     Loading...
   </div>
 );
+const TestPage = lazy(() => import("@/pages/TestPage"));
+const MainLayout = lazy(() => import("@/layouts/MainLayout.tsx"));
 
 const AppRoutes: React.FC = () => (
   <Suspense fallback={<LoadingFallback />}>
     <Routes>
       {/* Unauthenticated Routes */}
-      <Route path="/" element={<Register />} />
+      <Route path="/" element={<WelcomePage />} />
       <Route path="/welcome" element={<WelcomePage />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/register" element={<Register />} />
@@ -113,6 +115,11 @@ const AppRoutes: React.FC = () => (
 
       {/* Redirect unmatched paths to Register */}
       <Route path="*" element={<Navigate to="/" replace />} />
+
+      {/* Add more routes here that need MainLayout */}
+      <Route element={<MainLayout />}>
+        <Route path="/dashboard" element={<TestPage />} />
+      </Route>
     </Routes>
   </Suspense>
 );

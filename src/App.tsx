@@ -6,7 +6,7 @@ import AppRoutes from "./routes/AppRoutes";
 import { AuthProvider } from "./contexts/auth0Provider/AuthContext";
 import { AgentGlobalProvider } from "@/contexts";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import Layout from "@/Layout.tsx";
+import Layout from "./Layout";
 
 /**
  * List or array of microfrontend route prefixes or full paths
