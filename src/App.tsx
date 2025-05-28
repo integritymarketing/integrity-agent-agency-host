@@ -6,6 +6,7 @@ import AppRoutes from "./routes/AppRoutes";
 import { AuthProvider } from "./contexts/auth0Provider/AuthContext";
 import { AgentGlobalProvider } from "@/contexts";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import Layout from "@/Layout.tsx";
 
 /**
  * List or array of microfrontend route prefixes or full paths
@@ -44,7 +45,7 @@ const ConditionalAgentProviderWrapper: React.FC<{
 
 function App() {
   return (
-    <div className="App">
+    <Layout>
       <ErrorBoundary>
         <BrowserRouter>
           <AuthProvider>
@@ -56,7 +57,7 @@ function App() {
           </AuthProvider>
         </BrowserRouter>
       </ErrorBoundary>
-    </div>
+    </Layout>
   );
 }
 
