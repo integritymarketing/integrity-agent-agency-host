@@ -88,28 +88,57 @@ If you need to switch Node.js versions, consider using a version manager like [n
 
 ---
 
-## 🔑 Setting Up `.npmrc`
+## 🔑 Setting Up `.npmrc` and GitHub Token
 
-To publish or install private packages from GitHub, you need to create a `.npmrc` file in the root of your project and include your GitHub personal access token. Follow these steps:
+To publish or install private packages from GitHub, you need to create a `.npmrc` file in the root of your project and include your GitHub personal access token. **Do not share or commit your token.**
 
-1. **Generate a GitHub Personal Access Token**:
+### 1. **Generate a GitHub Personal Access Token**
 
-   - Go to your GitHub account settings.
-   - Navigate to **Developer settings > Personal access tokens > Tokens (classic)**.
-   - Generate a new token with the `write:packages` and `read:packages` permissions.
+- Go to your GitHub account settings.
+- Navigate to **Developer settings > Personal access tokens > Tokens (classic)**.
+- Generate a new token with the `read:packages` (and `write:packages` if you plan to publish) permissions.
+- **Copy the token and keep it secure.**
 
-2. **Create a `.npmrc` File**:
-   Add the following content to your `.npmrc` file:
+### 2. **Create a `.npmrc` File**
 
-   ```plaintext
-   //npm.pkg.github.com/:_authToken=YOUR_PERSONAL_ACCESS_TOKEN
-   ```
+Add the following content to your `.npmrc` file:
 
-   Replace `YOUR_PERSONAL_ACCESS_TOKEN` with the token you generated.
+```plaintext
+//npm.pkg.github.com/:_authToken=YOUR_PERSONAL_ACCESS_TOKEN
+```
 
-3. **Important Note**:
-   - Do **NOT** commit the `.npmrc` file containing your token to version control.
-   - If the token is accidentally published, GitHub will automatically revoke it.
+Replace `YOUR_PERSONAL_ACCESS_TOKEN` with the token you generated.
+
+### 3. **Set the Token Securely for Installation**
+
+**Do NOT commit your `.npmrc` file with the token to version control.**  
+Instead, you can use an environment variable for local development:
+
+#### **For PowerShell (Windows):**
+
+```powershell
+$env:GITHUB_TOKEN="your_token_here"
+npm install
+```
+
+#### **For Bash (macOS/Linux):**
+
+```bash
+export GITHUB_TOKEN=your_token_here
+npm install
+```
+
+Then, in your `.npmrc`, use:
+
+```plaintext
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+> **Note:**
+>
+> - This environment variable approach works with `npm` and Yarn v3+ (not Yarn v1).
+> - Never share or commit your token.
+> - For CI/CD, set the `GITHUB_TOKEN` as a secret/environment variable in your pipeline settings.
 
 ---
 
