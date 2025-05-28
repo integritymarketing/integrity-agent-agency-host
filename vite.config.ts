@@ -23,7 +23,15 @@ export default defineConfig({
           "http://localhost:5002/assets/integrityAgentDashboard.js",
         IntegrityAgent: "http://localhost:5003/assets/integrityAgent.js",
       },
-      shared: ['react', 'react-dom', '@auth0/auth0-react', 'jotai'],
+      shared: [
+        "react",
+        "react-dom",
+        "@mui/material",
+        "@mui/base",
+        "@auth0/auth0-react",
+        "jotai",
+        "@integritymarketing/clients-ui-kit",
+      ],
     }),
   ],
   css: {
