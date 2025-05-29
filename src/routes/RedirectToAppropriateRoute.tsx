@@ -11,7 +11,7 @@ const RedirectToAppropriateRoute: React.FC = () => {
     searchParams.get("redirectTo") || sessionStorage.getItem("redirectTo");
 
   useEffect(() => {
-    const target = redirectTo || "/dashboard";
+    const target = redirectTo || "/agent/dashboard";
 
     if (import.meta.env.VITE_BUILD_ENV !== "Production") {
       if (isAuthenticated) {
