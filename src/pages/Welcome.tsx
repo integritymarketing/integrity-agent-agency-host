@@ -50,7 +50,7 @@ const WelcomePage = () => {
       <Container
         sx={{
           display: "flex",
-          minHeight: "calc(100vh - 64px)", 
+          minHeight: "calc(100vh - 64px)",
           alignItems: "center",
           justifyContent: "center",
           paddingY: 4,
@@ -102,9 +102,11 @@ const WelcomePage = () => {
             business. Life as an agent just got better!
           </Typography>
 
-          <Button variant="contained" sx={{ backgroundColor: "#003087" }}>
+          <a
+            href={`${import.meta.env.VITE_AUTH_BASE_URL}/register?client_id=AEPortal`}
+          >
             Get Started
-          </Button>
+          </a>
         </Box>
       </Container>
     </>

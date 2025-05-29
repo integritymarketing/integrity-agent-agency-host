@@ -5,7 +5,7 @@ import AuthRoutes from "./AuthRoutes";
 const TestPage = lazy(() => import("@/pages/TestPage"));
 const MainLayout = lazy(() => import("@/layouts/MainLayout.tsx"));
 
-const AppRoutes: React.FC = () => (
+const AgentRoutes: React.FC = () => (
   <Suspense fallback={<div>Loading...</div>}>
     <Routes>
       {/* Auth-related routes */}
@@ -13,11 +13,11 @@ const AppRoutes: React.FC = () => (
 
       {/* Main app routes with layout */}
       <Route element={<MainLayout />}>
-        <Route path="/dashboard" element={<TestPage />} />
+        <Route path="/agent/dashboard" element={<TestPage />} />
         {/* Add more main app routes here */}
       </Route>
     </Routes>
   </Suspense>
 );
 
-export default AppRoutes;
+export default AgentRoutes;
