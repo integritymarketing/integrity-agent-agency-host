@@ -5,10 +5,11 @@ import AgencyRoutes from "./AgencyRoutes";
 import AuthRoutes from "./AuthRoutes";
 import { AgentGlobalProvider } from "@/contexts";
 import { CircularProgress, Box } from "@mui/material";
+import { useRole } from "@/contexts";
 
 const RouterSwitch: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth0();
-  const ROLE: string = "agent"; // TODO: Replace with dynamic role logic
+  const { role } = useRole();
 
   if (isLoading) {
     return (
@@ -27,8 +28,12 @@ const RouterSwitch: React.FC = () => {
     return <AuthRoutes />;
   }
 
-  if (ROLE === "agency") {
-    return <AgencyRoutes />;
+  if (role === "agency") {
+    return (
+      <AgentGlobalProvider>
+        <AgencyRoutes />
+      </AgentGlobalProvider>
+    );
   }
 
   // Default to agent

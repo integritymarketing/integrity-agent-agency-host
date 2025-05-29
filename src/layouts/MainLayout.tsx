@@ -22,6 +22,7 @@ import {
 } from "@awesome.me/kit-7ab3488df1/icons/duotone/solid";
 import useAgentProfile from "@/hooks/useAgentProfile";
 import { useAgentAvailability } from "@/contexts";
+import { useRole } from "@/contexts";
 
 /**
  * MainLayout is a wrapper component for all routes that should share a common layout,
@@ -43,6 +44,7 @@ const MainLayout: React.FC = () => {
   const navigate = useNavigate();
   const { data, error, refetch } = useAgentAvailability();
   const { fullName } = useAgentProfile();
+  const { role, setRole } = useRole();
 
   useEffect(() => {
     refetch().then((r) => r);
@@ -52,10 +54,18 @@ const MainLayout: React.FC = () => {
   const handleAvailabilityChange = async () => {
     if (data) {
       try {
-        //await toggleAvailability(!data.isAvailable);
       } catch (error) {
         console.error("Failed to toggle availability:", error);
       }
+    }
+  };
+
+  const handleRoleChange = (newRole: string) => {
+    setRole(newRole as "agent" | "agency");
+    if (newRole === "agency") {
+      navigate("/agencyDashboard");
+    } else {
+      navigate("/dashboard");
     }
   };
 
@@ -164,6 +174,8 @@ const MainLayout: React.FC = () => {
       <div className="main-content">
         <SideNav
           navItems={navItems}
+          role={role}
+          setRole={handleRoleChange}
           recentProfiles={[
             {
               name: "Jennifer Patel",

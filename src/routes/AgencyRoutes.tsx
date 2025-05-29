@@ -5,6 +5,8 @@ import AuthRoutes from "./AuthRoutes";
 const TestPage = lazy(() => import("@/pages/TestPage"));
 const MainLayout = lazy(() => import("@/layouts/MainLayout.tsx"));
 
+const UnderConstruction = lazy(() => import("@/pages/UnderConstruction"));
+
 const AgencyRoutes: React.FC = () => (
   <Suspense fallback={<div>Loading...</div>}>
     <Routes>
@@ -13,7 +15,7 @@ const AgencyRoutes: React.FC = () => (
 
       {/* Main app routes with layout */}
       <Route element={<MainLayout />}>
-        <Route path="/agency/dashboard" element={<TestPage />} />
+        <Route path="/agencyDashboard" element={<UnderConstruction />} />
         {/* Add more main app routes here */}
       </Route>
     </Routes>
