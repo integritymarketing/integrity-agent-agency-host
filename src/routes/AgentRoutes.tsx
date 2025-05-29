@@ -2,7 +2,8 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import AuthRoutes from "./AuthRoutes";
 
-const TestPage = lazy(() => import("@/pages/TestPage"));
+/*const TestPage = lazy(() => import("@/pages/TestPage"));*/
+const Dashboard = lazy(() => import("IntegrityAgentDashboard/AgentDashboard"));
 const MainLayout = lazy(() => import("@/layouts/MainLayout.tsx"));
 
 const AgentRoutes: React.FC = () => (
@@ -13,7 +14,7 @@ const AgentRoutes: React.FC = () => (
 
       {/* Main app routes with layout */}
       <Route element={<MainLayout />}>
-        <Route path="/dashboard" element={<TestPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         {/* Add more main app routes here */}
       </Route>
     </Routes>

@@ -24,15 +24,26 @@ export default defineConfig({
           "http://localhost:5002/assets/integrityAgentDashboard.js",
         IntegrityAgent: "http://localhost:5003/assets/integrityAgent.js",
       },
-      shared: [
-        "react",
-        "react-dom",
-        "@mui/material",
-        "@mui/base",
-        "@auth0/auth0-react",
-        "jotai",
-        "@integritymarketing/clients-ui-kit",
-      ],
+      shared: [{
+        'react': {
+          version: '18.3.1',
+        },
+        'react-dom': {
+          version: '18.3.1',
+        },
+        'react-router-dom': {
+          version: '6.21.1',
+        },
+        '@auth0/auth0-react': {
+          version: '2.2.4',
+        },
+        'react-helmet-async': {
+          version: '2.0.4',
+        },
+        'react-media': {
+          version: '1.10.0',
+        }
+      }],
     }),
   ],
   css: {
