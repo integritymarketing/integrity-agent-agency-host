@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import federation from "@originjs/vite-plugin-federation";
 
+// @ts-ignore
 export default defineConfig({
   resolve: {
     alias: {
@@ -47,5 +48,6 @@ export default defineConfig({
     target: "esnext",
     minify: false,
     cssCodeSplit: false,
+    sourcemap: true,
   },
 });
