@@ -10,17 +10,24 @@ A microfrontend-compatible shared context module built for the Integrity platfor
 - ✅ Vite + Module Federation (`@originjs/vite-plugin-federation`)
 - ✅ TypeScript + ESLint + Prettier integration
 - ✅ Post-build redirect support for Netlify via `_redirects` file
-- ✅ React 18 (experimental) compatibility
+- ✅ React 18
+- ✅ Uses **MUI 6** for UI components
+- ✅ Uses icons from **FontAwesome**
+- ✅ Uses **Auth0** for authentication
+- ✅ Logs errors in **Sentry** for monitoring and debugging
 
 ---
 
 ## 📦 Tech Stack
 
-- **React (experimental release)**
+- **React 18**
 - **Vite**
-- **Module Federation**
+- **Module Federation** (`@originjs/vite-plugin-federation`)
 - **TypeScript**
-- **MUI 5**
+- **MUI 5** (Material-UI)
+- **FontAwesome** (for icons)
+- **Auth0** (for authentication)
+- **Sentry** (for error monitoring)
 - **Prettier + ESLint**
 - **Yarn**
 
@@ -49,15 +56,32 @@ A microfrontend-compatible shared context module built for the Integrity platfor
    ```bash
    git clone https://github.com/integritymarketing/integrity-agent-agency-host
    ```
-2. Install dependencies:
+2. Set up your GitHub token for private package installation:  
+   See [🔑 Setting Up `.npmrc` and GitHub Token](#-setting-up-npmrc-and-github-token) below for instructions.
+
+3. Install dependencies:
+
    ```bash
    yarn install
    ```
-3. Start the development server:
+
+4. Copy the environment variable template and rename it:
+
+   ```bash
+      cp .env.sample .env
+   ```
+
+   Why?
+   .env.sample is a template file containing all the required environment variable names and example values.
+   You must rename it to .env so that Vite and other tools can load your actual environment variables at runtime.
+   Update the values in .env with your real secrets and configuration for local development.
+   Never commit your .env file to version control.
+
+5. Start the development server:
    ```bash
    yarn dev
    ```
-4. Build the project for production:
+6. Build the project for production:
    ```bash
    yarn build
    ```
@@ -88,34 +112,68 @@ If you need to switch Node.js versions, consider using a version manager like [n
 
 ---
 
-## 🔑 Setting Up `.npmrc`
+## 🔑 Setting Up `.npmrc` and GitHub Token
 
-To publish or install private packages from GitHub, you need to create a `.npmrc` file in the root of your project and include your GitHub personal access token. Follow these steps:
+To publish or install private packages from GitHub, you need to create a `.npmrc` file in the root of your project and include your GitHub personal access token. **Do not share or commit your token.**
 
-1. **Generate a GitHub Personal Access Token**:
+### 1. **Generate a GitHub Personal Access Token**
 
-   - Go to your GitHub account settings.
-   - Navigate to **Developer settings > Personal access tokens > Tokens (classic)**.
-   - Generate a new token with the `write:packages` and `read:packages` permissions.
+- Go to your GitHub account settings.
+- Navigate to **Developer settings > Personal access tokens > Tokens (classic)**.
+- Generate a new token with the `read:packages` (and `write:packages` if you plan to publish) permissions.
+- **Copy the token and keep it secure.**
 
-2. **Create a `.npmrc` File**:
-   Add the following content to your `.npmrc` file:
+### 2. **Create a `.npmrc` File**
 
-   ```plaintext
-   //npm.pkg.github.com/:_authToken=YOUR_PERSONAL_ACCESS_TOKEN
-   ```
+Add the following content to your `.npmrc` file:
 
-   Replace `YOUR_PERSONAL_ACCESS_TOKEN` with the token you generated.
+```plaintext
+//npm.pkg.github.com/:_authToken=YOUR_PERSONAL_ACCESS_TOKEN
+```
 
-3. **Important Note**:
-   - Do **NOT** commit the `.npmrc` file containing your token to version control.
-   - If the token is accidentally published, GitHub will automatically revoke it.
+Replace `YOUR_PERSONAL_ACCESS_TOKEN` with the token you generated.
+
+### 3. **Set the Token Securely for Installation**
+
+**Do NOT commit your `.npmrc` file with the token to version control.**  
+Instead, you can use an environment variable for local development:
+
+#### **For PowerShell (Windows):**
+
+```powershell
+$env:GITHUB_TOKEN="your_token_here"
+npm install
+```
+
+#### **For Bash (macOS/Linux):**
+
+```bash
+export GITHUB_TOKEN=your_token_here
+npm install
+```
+
+Then, in your `.npmrc`, use:
+
+```plaintext
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+> **Note:**
+>
+> - This environment variable approach works with `npm` and Yarn v3+ (not Yarn v1).
+> - Never share or commit your token.
+> - For CI/CD, set the `GITHUB_TOKEN` as a secret/environment variable in your pipeline settings.
 
 ---
 
 ## 🌐 Hosting
 
-This site has been hosted and deployed to **Netlify**.
+This site is hosted and deployed to **Netlify** at the following URLs:
+
+- [Development](https://ia-dev.integritymarketinggroup.com)
+- [QA](https://ia-qa.integritymarketinggroup.com)
+- [Staging](https://ia-stage.integritymarketinggroup.com)
+- [UAT](https://ia-uat.integritymarketinggroup.com)
 
 ## 📄 License
 

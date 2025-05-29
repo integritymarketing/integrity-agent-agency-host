@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./FooterUnAuthenticated.module.scss";
-import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 import Integrity from "./Integrity.svg";
 import usePortalUrl from "@/hooks/usePortalUrl";

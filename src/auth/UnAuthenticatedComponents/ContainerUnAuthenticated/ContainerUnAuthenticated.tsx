@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import Grid from "@mui/material/Unstable_Grid2"; // Use Grid2 directly
+import Grid from "@mui/material/Grid";
 import styles from "./ContainerUnAuthenticated.module.scss";
 import bg from "./pixels.svg";
 

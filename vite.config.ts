@@ -24,24 +24,15 @@ export default defineConfig({
           "http://localhost:5002/assets/integrityAgentDashboard.js",
         IntegrityAgent: "http://localhost:5003/assets/integrityAgent.js",
       },
-      shared: [{
-        react: {
-          singleton: true,
-          requiredVersion: '^18.3.1',
-        },
-        'react-dom': {
-          singleton: true,
-          requiredVersion: '^18.3.1',
-        },
-        'react-router-dom': {
-          singleton: true,
-          requiredVersion: '^6.21.1',
-        },
-        '@auth0/auth0-react': {
-          singleton: true,
-          requiredVersion: '^2.2.4',
-        },
-      }]
+      shared: [
+        "react",
+        "react-dom",
+        "@mui/material",
+        "@mui/base",
+        "@auth0/auth0-react",
+        "jotai",
+        "@integritymarketing/clients-ui-kit",
+      ],
     }),
   ],
   css: {
