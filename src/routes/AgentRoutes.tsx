@@ -14,7 +14,7 @@ const AgentRoutes: React.FC = () => (
 
       {/* Main app routes with layout */}
       <Route element={<MainLayout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard />} />
         {/* Add more main app routes here */}
       </Route>
     </Routes>
