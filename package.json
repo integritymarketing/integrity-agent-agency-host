@@ -34,7 +34,7 @@
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
     "@uidotdev/usehooks": "^2.4.1-experimental.1",
-    "@integritymarketing/clients-ui-kit": "^2.1.7",
+    "@integritymarketing/clients-ui-kit": "^2.1.9",
     "date-fns": "^4.1.0",
     "eslint-plugin-prettier": "^5.4.0",
     "eslint-plugin-react": "^7.37.5",
