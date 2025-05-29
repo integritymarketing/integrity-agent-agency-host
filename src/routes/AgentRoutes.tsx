@@ -13,7 +13,7 @@ const AgentRoutes: React.FC = () => (
 
       {/* Main app routes with layout */}
       <Route element={<MainLayout />}>
-        <Route path="/agent/dashboard" element={<TestPage />} />
+        <Route path="/dashboard" element={<TestPage />} />
         {/* Add more main app routes here */}
       </Route>
     </Routes>

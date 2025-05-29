@@ -19,7 +19,7 @@ const WelcomePage = () => {
     try {
       await loginWithRedirect({
         authorizationParams: {
-          redirect_uri: `${window.location.origin}/agent/dashboard`,
+          redirect_uri: `${window.location.origin}/dashboard`,
         },
       });
     } catch (e) {
