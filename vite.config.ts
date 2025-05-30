@@ -52,6 +52,9 @@ export default defineConfig({
         '@mui/styles': {
           version: '5.14.3'
         },
+        'react-tiny-popover': {
+          version: '8.0.4'
+        }
       }],
     }),
   ],
