@@ -42,7 +42,16 @@ export default defineConfig({
         },
         'react-media': {
           version: '1.10.0',
-        }
+        },
+        '@mui/icons-material': {
+          version: '5.14.1'
+        },
+        '@mui/material': {
+          version: '5.14.2'
+        },
+        '@mui/styles': {
+          version: '5.14.3'
+        },
       }],
     }),
   ],
